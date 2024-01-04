@@ -29,15 +29,24 @@ const ChartScreen = () => {
     .layout__area--topleft {display:none !important;}
     #overlap-manager-root {display:none !important;}
   `;
-  
+  //
+
   const injectedJavaScript = `
-    window.addEventListener('DOMContentLoaded', function() {
-      ${removeElements.map((id) => `document.getElementById('${id}').remove();`).join('\n')}
-      var styleTag = document.createElement('style');
-      styleTag.innerHTML = '${stylesToInject}';
-      document.getElementsByTagName('head')[0].appendChild(styleTag);
-    });
-  `;
+  // Your JavaScript code here
+  var classNamesToDelete = ['layout__area--topleft', 'layout__area--top', 'layout__area--left', 'layout__area--right'];
+
+  classNamesToDelete.forEach(function(className) {
+      var elementsToDelete = document.getElementsByClassName(className);
+
+      while (elementsToDelete.length > 0) {
+          elementsToDelete[0].parentNode.removeChild(elementsToDelete[0]);
+      }
+  });
+
+  var styleElement = document.createElement('style');
+  styleElement.innerHTML = '.chart-page { background-color: #ffffff; }';
+  document.head.appendChild(styleElement);
+`;
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
