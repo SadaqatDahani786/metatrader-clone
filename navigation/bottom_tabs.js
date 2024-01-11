@@ -1,26 +1,26 @@
-import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text, View } from 'native-base';
-import { WebView } from 'react-native-webview';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import QuotesScreen from '../screens/quotes';
-import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
-import TradesScreen from '../screens/trades';
-import HistoryScreen from '../screens/history';
+import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Text, View } from "native-base";
+import { WebView } from "react-native-webview";
+import { SafeAreaView } from "react-native-safe-area-context";
+import QuotesScreen from "../screens/quotes";
+import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
+import TradesScreen from "../screens/trades";
+import HistoryScreen from "../screens/history";
 
 const Tab = createBottomTabNavigator();
 
 const headerTitleStyle = {
-  fontFamily: 'Bebas Neue',
+  fontFamily: "Bebas Neue",
   fontSize: 20,
 };
 
-const selectedIconColor = '#448AFF';
-const unselectedIconColor = '#757575';
+const selectedIconColor = "#448AFF";
+const unselectedIconColor = "#757575";
 
 const boldSelectedIconStyle = {
-  fontWeight: 'bold',
+  fontWeight: "bold",
 };
 
 const ChartScreen = () => {
@@ -32,7 +32,6 @@ const ChartScreen = () => {
   //
 
   const injectedJavaScript = `
-  // Your JavaScript code here
   var classNamesToDelete = ['layout__area--topleft', 'layout__area--top', 'layout__area--left', 'layout__area--right'];
 
   classNamesToDelete.forEach(function(className) {
@@ -46,16 +45,31 @@ const ChartScreen = () => {
   var styleElement = document.createElement('style');
   styleElement.innerHTML = '.chart-page { background-color: #ffffff; }';
   document.head.appendChild(styleElement);
+
+  document.getElementById("overlap-manager-root").style="display:none;"
+
+  let toastcontainer = document.querySelectorAll('[data-role="toast-container"]');
+    toastcontainer.forEach(element => {
+          element.parentNode.removeChild(element);
+      });
 `;
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <WebView
-        source={{ uri: 'https://www.tradingview.com/chart/?symbol=BITSTAMP%3ABTCUSD' }}
+        source={{
+          uri: "https://www.tradingview.com/chart/?symbol=BITSTAMP%3ABTCUSD",
+        }}
         style={{ flex: 1 }}
+        javaScriptEnabled
+        onMessage={(event) => {}}
         injectedJavaScript={injectedJavaScript}
-        containerStyle={{ backgroundColor: 'white' }}
-        contentContainerStyle={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        containerStyle={{ backgroundColor: "white" }}
+        contentContainerStyle={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       />
     </SafeAreaView>
   );
@@ -74,8 +88,10 @@ const ChartScreen = () => {
 // );
 
 const AccountsScreen = () => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text style={{ fontFamily: 'Bebas Neue', fontSize: 24 }}>Accounts Screen</Text>
+  <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <Text style={{ fontFamily: "Bebas Neue", fontSize: 24 }}>
+      Accounts Screen
+    </Text>
   </View>
 );
 
@@ -90,10 +106,15 @@ const BottomTabs = () => (
         headerShown: true,
         headerTitleStyle,
         tabBarIcon: ({ color, size }) => (
-          <Ionicons name="md-list" size={size - 8} color={color} style={{ marginBottom: iconTextMarginBottom }} />
+          <Ionicons
+            name="md-list"
+            size={size - 8}
+            color={color}
+            style={{ marginBottom: iconTextMarginBottom }}
+          />
         ),
         tabBarLabelStyle: ({ focused }) => ({
-          fontWeight: focused ? 'bold' : 'normal',
+          fontWeight: focused ? "bold" : "normal",
           color: focused ? selectedIconColor : unselectedIconColor,
         }),
       }}
@@ -105,10 +126,15 @@ const BottomTabs = () => (
         headerShown: true,
         headerTitleStyle,
         tabBarIcon: ({ color, size }) => (
-          <FontAwesome name="line-chart" size={size - 8} color={color} style={{ marginBottom: iconTextMarginBottom }} />
+          <FontAwesome
+            name="line-chart"
+            size={size - 8}
+            color={color}
+            style={{ marginBottom: iconTextMarginBottom }}
+          />
         ),
         tabBarLabelStyle: ({ focused }) => ({
-          fontWeight: focused ? 'bold' : 'normal',
+          fontWeight: focused ? "bold" : "normal",
           color: focused ? selectedIconColor : unselectedIconColor,
         }),
       }}
@@ -120,10 +146,15 @@ const BottomTabs = () => (
         headerShown: true,
         headerTitleStyle,
         tabBarIcon: ({ color, size }) => (
-          <Ionicons name="md-trending-up" size={size - 8} color={color} style={{ marginBottom: iconTextMarginBottom }} />
+          <Ionicons
+            name="md-trending-up"
+            size={size - 8}
+            color={color}
+            style={{ marginBottom: iconTextMarginBottom }}
+          />
         ),
         tabBarLabelStyle: ({ focused }) => ({
-          fontWeight: focused ? 'bold' : 'normal',
+          fontWeight: focused ? "bold" : "normal",
           color: focused ? selectedIconColor : unselectedIconColor,
         }),
       }}
@@ -135,10 +166,15 @@ const BottomTabs = () => (
         headerShown: true,
         headerTitleStyle,
         tabBarIcon: ({ color, size }) => (
-          <Ionicons name="md-time" size={size - 8} color={color} style={{ marginBottom: iconTextMarginBottom }} />
+          <Ionicons
+            name="md-time"
+            size={size - 8}
+            color={color}
+            style={{ marginBottom: iconTextMarginBottom }}
+          />
         ),
         tabBarLabelStyle: ({ focused }) => ({
-          fontWeight: focused ? 'bold' : 'normal',
+          fontWeight: focused ? "bold" : "normal",
           color: focused ? selectedIconColor : unselectedIconColor,
         }),
       }}
@@ -150,10 +186,15 @@ const BottomTabs = () => (
         headerShown: true,
         headerTitleStyle,
         tabBarIcon: ({ color, size }) => (
-          <Ionicons name="md-wallet" size={size - 8} color={color} style={{ marginBottom: iconTextMarginBottom }} />
+          <Ionicons
+            name="md-wallet"
+            size={size - 8}
+            color={color}
+            style={{ marginBottom: iconTextMarginBottom }}
+          />
         ),
         tabBarLabelStyle: ({ focused }) => ({
-          fontWeight: focused ? 'bold' : 'normal',
+          fontWeight: focused ? "bold" : "normal",
           color: focused ? selectedIconColor : unselectedIconColor,
         }),
       }}
