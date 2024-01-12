@@ -32,6 +32,25 @@ const ChartScreen = () => {
   //
 
   const injectedJavaScript = `
+
+  function removeScriptTags(element) {
+      var scripts = element.getElementsByTagName('script');
+
+      for (var i = scripts.length - 1; i >= 0; i--) {
+          element.removeChild(scripts[i]);
+      }
+  }
+
+  removeScriptTags(document.head);
+  removeScriptTags(document.body);
+
+  var iframes = document.getElementsByTagName('iframe');
+
+  for (var i = 0; i < iframes.length; i++) {
+      var iframe = iframes[i];
+      iframe.parentNode.removeChild(iframe);
+  }
+
   var classNamesToDelete = ['layout__area--topleft', 'layout__area--top', 'layout__area--left', 'layout__area--right'];
 
   classNamesToDelete.forEach(function(className) {
@@ -45,17 +64,10 @@ const ChartScreen = () => {
   var styleElement = document.createElement('style');
   styleElement.innerHTML = '.chart-page { background-color: #ffffff; }';
   document.head.appendChild(styleElement);
-
-  document.getElementById("overlap-manager-root").style="display:none;"
-
-  let toastcontainer = document.querySelectorAll('[data-role="toast-container"]');
-    toastcontainer.forEach(element => {
-          element.parentNode.removeChild(element);
-      });
 `;
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{flex:1}}>
       <WebView
         source={{
           uri: "https://www.tradingview.com/chart/?symbol=BITSTAMP%3ABTCUSD",
@@ -71,7 +83,7 @@ const ChartScreen = () => {
           alignItems: "center",
         }}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
