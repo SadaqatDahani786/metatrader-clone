@@ -2,7 +2,6 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Text, View } from "native-base";
 import { WebView } from "react-native-webview";
-import { SafeAreaView } from "react-native-safe-area-context";
 import QuotesScreen from "../screens/quotes";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -67,7 +66,7 @@ const ChartScreen = () => {
 `;
 
   return (
-    <View style={{flex:1}}>
+    <View style={{ flex: 1 }}>
       <WebView
         source={{
           uri: "https://www.tradingview.com/chart/?symbol=BITSTAMP%3ABTCUSD",
@@ -115,7 +114,7 @@ const BottomTabs = () => (
       name="Quotes"
       component={QuotesScreen}
       options={{
-        headerShown: true,
+        headerShown: false,
         headerTitleStyle,
         tabBarIcon: ({ color, size }) => (
           <Ionicons
@@ -125,6 +124,7 @@ const BottomTabs = () => (
             style={{ marginBottom: iconTextMarginBottom }}
           />
         ),
+
         tabBarLabelStyle: ({ focused }) => ({
           fontWeight: focused ? "bold" : "normal",
           color: focused ? selectedIconColor : unselectedIconColor,
