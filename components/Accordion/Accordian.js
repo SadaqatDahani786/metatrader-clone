@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
   header: { flexDirection: "row", alignItems: "center", gap: 8 },
   title: {
     fontFamily: "Bebas Neue",
-    fontWeight: "bold",
     fontSize: 18,
   },
   listItem: {

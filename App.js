@@ -5,7 +5,7 @@ import { hideAsync, preventAutoHideAsync } from "expo-splash-screen";
 import { useFonts, BebasNeue_400Regular } from "@expo-google-fonts/bebas-neue";
 
 //Nav
-import { NavigationContainer, useTheme } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { NativeBaseProvider } from "native-base";
 import RootStack from "./navigation/root_stack";
 
