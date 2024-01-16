@@ -5,6 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
+import { useSelector } from "react-redux";
 
 /*
  ** ** =============================================================
@@ -12,70 +13,22 @@ import {
  ** ** =============================================================
  */
 const QuotesMainScreen = () => {
-  // const { send, isConnected } = WebSocketService();
-  // const [isLoading, setIsLoading] = useState(true);
-
-  // useEffect(() => {
-  //   // Send a message when the component mounts
-  //   send('Hello from HomeScreen');
-
-  //   // Simulate some loading time
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 2000);
-
-  //   return () => {
-  //     // Cleanup on component unmount
-  //   };
-  // }, [send]);
-
-  const quotesData = [
-    { pair: "EUR/USD", bid: 1.1802, ask: 1.1804, change: -0.0012 },
-    { pair: "GBP/USD", bid: 1.3805, ask: 1.3807, change: 0.0002 },
-    { pair: "USD/JPY", bid: 109.853, ask: 109.877, change: 0.002 },
-    { pair: "EUR/USD", bid: 1.1802, ask: 1.1804, change: -0.0012 },
-    { pair: "GBP/USD", bid: 1.3805, ask: 1.3807, change: 0.0002 },
-    { pair: "USD/JPY", bid: 109.853, ask: 109.877, change: 0.002 },
-    { pair: "EUR/USD", bid: 1.1802, ask: 1.1804, change: -0.0012 },
-    { pair: "GBP/USD", bid: 1.3805, ask: 1.3807, change: 0.0002 },
-    { pair: "USD/JPY", bid: 109.853, ask: 109.877, change: 0.002 },
-    { pair: "EUR/USD", bid: 1.1802, ask: 1.1804, change: -0.0012 },
-    { pair: "GBP/USD", bid: 1.3805, ask: 1.3807, change: 0.0002 },
-    { pair: "USD/JPY", bid: 109.853, ask: 109.877, change: 0.002 },
-    { pair: "EUR/USD", bid: 1.1802, ask: 1.1804, change: -0.0012 },
-    { pair: "GBP/USD", bid: 1.3805, ask: 1.3807, change: 0.0002 },
-    { pair: "USD/JPY", bid: 109.853, ask: 109.877, change: 0.002 },
-    { pair: "EUR/USD", bid: 1.1802, ask: 1.1804, change: -0.0012 },
-    { pair: "GBP/USD", bid: 1.3805, ask: 1.3807, change: 0.0002 },
-    { pair: "USD/JPY", bid: 109.853, ask: 109.877, change: 0.002 },
-    { pair: "EUR/USD", bid: 1.1802, ask: 1.1804, change: -0.0012 },
-    { pair: "GBP/USD", bid: 1.3805, ask: 1.3807, change: 0.0002 },
-    { pair: "USD/JPY", bid: 109.853, ask: 109.877, change: 0.002 },
-    { pair: "EUR/USD", bid: 1.1802, ask: 1.1804, change: -0.0012 },
-    { pair: "GBP/USD", bid: 1.3805, ask: 1.3807, change: 0.0002 },
-    { pair: "USD/JPY", bid: 109.853, ask: 109.877, change: 0.002 },
-    { pair: "EUR/USD", bid: 1.1802, ask: 1.1804, change: -0.0012 },
-    { pair: "GBP/USD", bid: 1.3805, ask: 1.3807, change: 0.0002 },
-    { pair: "USD/JPY", bid: 109.853, ask: 109.877, change: 0.002 },
-    { pair: "EUR/USD", bid: 1.1802, ask: 1.1804, change: -0.0012 },
-    { pair: "GBP/USD", bid: 1.3805, ask: 1.3807, change: 0.0002 },
-    { pair: "USD/JPY", bid: 109.853, ask: 109.877, change: 0.002 },
-    { pair: "EUR/USD", bid: 1.1802, ask: 1.1804, change: -0.0012 },
-    { pair: "GBP/USD", bid: 1.3805, ask: 1.3807, change: 0.0002 },
-    { pair: "USD/JPY", bid: 109.853, ask: 109.877, change: 0.002 },
-    { pair: "EUR/USD", bid: 1.1802, ask: 1.1804, change: -0.0012 },
-    { pair: "GBP/USD", bid: 1.3805, ask: 1.3807, change: 0.0002 },
-    { pair: "USD/JPY", bid: 109.853, ask: 109.877, change: 0.002 },
-    { pair: "EUR/USD", bid: 1.1802, ask: 1.1804, change: -0.0012 },
-    { pair: "GBP/USD", bid: 1.3805, ask: 1.3807, change: 0.0002 },
-    { pair: "USD/JPY", bid: 109.853, ask: 109.877, change: 0.002 },
-    // Add more dummy data here
-  ];
+  /*
+   ** **
+   ** ** ** State & Hooks
+   ** **
+   */
+  const quotesData = useSelector((state) => state.quotes);
 
   const redColor = "#FF5252";
   const blueColor = "#448AFF";
   const grayColor = "#757575";
 
+  /*
+   ** **
+   ** ** ** Component [QuoteItem]
+   ** **
+   */
   const renderQuoteItem = ({ item }) => {
     let color;
     if (item.change > 0) {
@@ -86,8 +39,8 @@ const QuotesMainScreen = () => {
       color = grayColor;
     }
 
-    const bid = item.bid.toString(); // Convert bid price to string
-    const ask = item.ask.toString(); // Convert ask price to string
+    const bid = item.bid?.toString(); // Convert bid price to string
+    const ask = item.ask?.toString(); // Convert ask price to string
 
     return (
       <TouchableOpacity
@@ -98,38 +51,38 @@ const QuotesMainScreen = () => {
         <View style={styles.ratesContainer}>
           <View style={styles.rateItem}>
             <Text style={[styles.rateValue, { color }]}>
-              {bid.slice(0, -3)}
+              {bid?.slice(0, -3)}
             </Text>
           </View>
           <View style={styles.rateItem}>
             <Text style={[styles.rateValue, styles.biggerPrice, { color }]}>
-              {bid.slice(-3, -1)}
+              {bid?.slice(-3, -1)}
             </Text>
           </View>
           <View style={styles.rateItem}>
             <Text
               style={[styles.rateValue, styles.exponentialPrice, { color }]}
             >
-              {bid.slice(-1)}
+              {bid?.slice(-1)}
             </Text>
           </View>
         </View>
         <View style={styles.ratesContainer}>
           <View style={styles.rateItem}>
             <Text style={[styles.rateValue, { color }]}>
-              {ask.slice(0, -3)}
+              {ask?.slice(0, -3)}
             </Text>
           </View>
           <View style={styles.rateItem}>
             <Text style={[styles.rateValue, styles.biggerPrice, { color }]}>
-              {ask.slice(-3, -1)}
+              {ask?.slice(-3, -1)}
             </Text>
           </View>
           <View style={styles.rateItem}>
             <Text
               style={[styles.rateValue, styles.exponentialPrice, { color }]}
             >
-              {ask.slice(-1)}
+              {ask?.slice(-1)}
             </Text>
           </View>
         </View>
@@ -137,8 +90,13 @@ const QuotesMainScreen = () => {
     );
   };
 
+  /*
+   ** **
+   ** ** ** Methods
+   ** **
+   */
+  //Handle press event
   const handleRowPress = (item) => {
-    // Handle row press event here
     console.log("Row pressed:", item.pair);
   };
 

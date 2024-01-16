@@ -52,10 +52,25 @@ const QuotesScreen = ({ navigation }) => {
           ),
         }}
       />
-      <StackNavigator.Screen name="AddQuoteScreen" component={AddQuoteScreen} />
+      <StackNavigator.Screen
+        name="AddQuoteScreen"
+        component={AddQuoteScreen}
+        options={{
+          title: "Add Symbols",
+          headerTitleStyle: {
+            fontFamily: "Bebas Neue",
+          },
+        }}
+      />
       <StackNavigator.Screen
         name="EditQuoteScreen"
         component={EditQuoteScreen}
+        options={{
+          title: "Selected Symbols",
+          headerTitleStyle: {
+            fontFamily: "Bebas Neue",
+          },
+        }}
       />
     </StackNavigator.Navigator>
   );
