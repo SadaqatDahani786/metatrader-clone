@@ -1,120 +1,49 @@
 import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Text, View } from "native-base";
-import { WebView } from "react-native-webview";
-import QuotesScreen from "../screens/quotes";
+import { View } from "react-native";
+
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+//Components
+import IconButton from "../components/IconButton/IconButton";
+
+//Screens
+import QuotesScreen from "../screens/quotes";
+import ChartScreen from "../screens/chart";
 import TradesScreen from "../screens/trades";
 import HistoryScreen from "../screens/history";
+import AccountsScreen from "../screens/accounts";
 
+//Bottom Tab Navigation
 const Tab = createBottomTabNavigator();
 
+/*
+ ** **
+ ** ** ** Styles
+ ** **
+ */
 const headerTitleStyle = {
   fontFamily: "Bebas Neue",
   fontSize: 20,
 };
-
 const selectedIconColor = "#448AFF";
 const unselectedIconColor = "#757575";
-
-const boldSelectedIconStyle = {
-  fontWeight: "bold",
-};
-
-const ChartScreen = () => {
-  const removeElements = ["overlap-manager-root"];
-  const stylesToInject = `
-    .layout__area--topleft {display:none !important;}
-    #overlap-manager-root {display:none !important;}
-  `;
-  //
-
-  const injectedJavaScript = `
-
-  function removeScriptTags(element) {
-      var scripts = element.getElementsByTagName('script');
-
-      for (var i = scripts.length - 1; i >= 0; i--) {
-          element.removeChild(scripts[i]);
-      }
-  }
-
-  removeScriptTags(document.head);
-  removeScriptTags(document.body);
-
-  var iframes = document.getElementsByTagName('iframe');
-
-  for (var i = 0; i < iframes.length; i++) {
-      var iframe = iframes[i];
-      iframe.parentNode.removeChild(iframe);
-  }
-
-  var classNamesToDelete = ['layout__area--topleft', 'layout__area--top', 'layout__area--left', 'layout__area--right'];
-
-  classNamesToDelete.forEach(function(className) {
-      var elementsToDelete = document.getElementsByClassName(className);
-
-      while (elementsToDelete.length > 0) {
-          elementsToDelete[0].parentNode.removeChild(elementsToDelete[0]);
-      }
-  });
-
-  var styleElement = document.createElement('style');
-  styleElement.innerHTML = '.chart-page { background-color: #ffffff; }';
-  document.head.appendChild(styleElement);
-`;
-
-  return (
-    <View style={{ flex: 1 }}>
-      <WebView
-        source={{
-          uri: "https://www.tradingview.com/chart/?symbol=BITSTAMP%3ABTCUSD",
-        }}
-        style={{ flex: 1 }}
-        javaScriptEnabled
-        onMessage={(event) => {}}
-        injectedJavaScript={injectedJavaScript}
-        containerStyle={{ backgroundColor: "white" }}
-        contentContainerStyle={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      />
-    </View>
-  );
-};
-
-// const TradesScreen = () => (
-//   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//     <Text style={{ fontFamily: 'Bebas Neue', fontSize: 24 }}>Trades Screen</Text>
-//   </View>
-// );
-
-// const HistoryScreen = () => (
-//   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//     <Text style={{ fontFamily: 'Bebas Neue', fontSize: 24 }}>History Screen</Text>
-//   </View>
-// );
-
-const AccountsScreen = () => (
-  <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <Text style={{ fontFamily: "Bebas Neue", fontSize: 24 }}>
-      Accounts Screen
-    </Text>
-  </View>
-);
-
 const iconTextMarginBottom = -6;
 
-const BottomTabs = () => (
+/*
+ ** ** =============================================================
+ ** ** ** Component [BottomTabs]
+ ** ** =============================================================
+ */
+const BottomTabs = ({ navigation }) => (
   <Tab.Navigator initialRouteName="Quotes">
     <Tab.Screen
       name="Quotes"
       component={QuotesScreen}
       options={{
-        headerShown: false,
+        title: "QUOTES",
+        headerShown: true,
         headerTitleStyle,
         tabBarIcon: ({ color, size }) => (
           <Ionicons
@@ -124,11 +53,33 @@ const BottomTabs = () => (
             style={{ marginBottom: iconTextMarginBottom }}
           />
         ),
-
         tabBarLabelStyle: ({ focused }) => ({
           fontWeight: focused ? "bold" : "normal",
           color: focused ? selectedIconColor : unselectedIconColor,
         }),
+        headerRight: () => (
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 16,
+              paddingRight: 8,
+              alignItems: "center",
+            }}
+          >
+            <IconButton
+              onPress={() => navigation.navigate("AddQuoteScreen")}
+              color="GRAY"
+              icon="plus"
+              size="SM"
+            />
+            <IconButton
+              onPress={() => navigation.navigate("EditQuoteScreen")}
+              color="GRAY"
+              icon="edit-3"
+              size="SM"
+            />
+          </View>
+        ),
       }}
     />
     <Tab.Screen
