@@ -48,6 +48,15 @@ const sliceQuotes = createSlice({
     addQuote: (state, { payload }) => {
       return [...state, payload];
     },
+    removeQuotes: (state, { payload }) => {
+      const identifies = payload;
+
+      const updatedState = state.filter(
+        (quote) => !identifies.includes(quote.pair)
+      );
+
+      return updatedState;
+    },
   },
 });
 
@@ -58,3 +67,4 @@ const sliceQuotes = createSlice({
  */
 export default sliceQuotes.reducer;
 export const { addQuote } = sliceQuotes.actions;
+export const { removeQuotes } = sliceQuotes.actions;

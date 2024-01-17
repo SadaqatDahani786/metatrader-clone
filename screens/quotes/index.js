@@ -65,12 +65,6 @@ const QuotesScreen = ({ navigation }) => {
       <StackNavigator.Screen
         name="EditQuoteScreen"
         component={EditQuoteScreen}
-        options={{
-          title: "Selected Symbols",
-          headerTitleStyle: {
-            fontFamily: "Bebas Neue",
-          },
-        }}
       />
     </StackNavigator.Navigator>
   );
