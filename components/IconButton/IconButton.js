@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, View } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { Feather, AntDesign } from "@expo/vector-icons";
 
 /**
  ** ** ===================================================================================
@@ -10,6 +10,7 @@ const IconButton = ({
   color = "BLACK",
   size = "MD",
   icon = "plus",
+  iconSet = "FEATHER",
   onPress = () => "",
 }) => {
   /*
@@ -50,6 +51,14 @@ const IconButton = ({
     },
   });
 
+  //Select IconSet
+  const IconSet =
+    iconSet === "FEATHER" ? (
+      <Feather color={colors[color]} size={sizes[size] - 8} name={icon} />
+    ) : (
+      <AntDesign color={colors[color]} size={sizes[size] - 8} name={icon} />
+    );
+
   return (
     <View style={styles.container}>
       <Pressable
@@ -57,7 +66,7 @@ const IconButton = ({
         android_ripple={{ color: "rgba(0, 0, 0, 0.1)" }}
         onPress={onPress}
       >
-        <Feather color={colors[color]} size={sizes[size] - 8} name={icon} />
+        {IconSet}
       </Pressable>
     </View>
   );

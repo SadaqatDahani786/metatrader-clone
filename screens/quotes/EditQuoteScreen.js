@@ -96,13 +96,19 @@ const EditQuoteScreen = ({ navigation }) => {
                   <IconButton
                     color="BLACK"
                     size="SM"
-                    icon="trash"
+                    iconSet="ANT"
+                    icon="delete"
                     onPress={removeSelectedQuotesHandler}
                   />
                 </View>
               </View>
             )}
-            <IconButton onPress={toggleEditMode} size="SM" icon="trash" />
+            <IconButton
+              onPress={toggleEditMode}
+              size="SM"
+              iconSet="ANT"
+              icon="delete"
+            />
           </View>
         );
       },
@@ -218,7 +224,7 @@ const EditQuoteScreen = ({ navigation }) => {
                     disableBuiltInState
                     isChecked={item.selected}
                     size={16}
-                    fillColor="blue"
+                    fillColor="#448AFF"
                     iconStyle={{ borderRadius: 4 }}
                     innerIconStyle={{ borderRadius: 4 }}
                   />

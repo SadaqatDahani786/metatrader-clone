@@ -62,20 +62,22 @@ const BottomTabs = ({ navigation }) => (
             style={{
               flexDirection: "row",
               gap: 16,
-              paddingRight: 8,
+              paddingRight: 16,
               alignItems: "center",
             }}
           >
             <IconButton
               onPress={() => navigation.navigate("AddQuoteScreen")}
-              color="GRAY"
+              color="BLACK"
+              iconSet="ANT"
               icon="plus"
               size="SM"
             />
             <IconButton
               onPress={() => navigation.navigate("EditQuoteScreen")}
-              color="GRAY"
-              icon="edit-3"
+              color="BLACK"
+              iconSet="ANT"
+              icon="edit"
               size="SM"
             />
           </View>
