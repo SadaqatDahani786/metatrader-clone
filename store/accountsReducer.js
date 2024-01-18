@@ -9,7 +9,6 @@ const defaultState = [
   {
     id: "88446784",
     fullname: "Sadaqat",
-    avatar: "https://avatars.githubusercontent.com/u/46186868?v=4",
     recentStatus: "GBP",
     deposit: {
       amount: "40,000.00",
@@ -27,7 +26,6 @@ const defaultState = [
   {
     id: "88443464",
     fullname: "Sadaqat Dahani",
-    avatar: "https://avatars.githubusercontent.com/u/46186868?v=4",
     recentStatus: "GBP",
     deposit: {
       amount: "40,000.00",
@@ -45,7 +43,6 @@ const defaultState = [
   {
     id: "88446464",
     fullname: "Sadaqat",
-    avatar: "https://avatars.githubusercontent.com/u/46186868?v=4",
     recentStatus: "GBP",
     deposit: {
       amount: "20,450.54",
@@ -63,7 +60,6 @@ const defaultState = [
   {
     id: "56446462",
     fullname: "Sadaqat New",
-    avatar: "https://avatars.githubusercontent.com/u/46186868?v=4",
     recentStatus: "CAD",
     deposit: {
       amount: "1,450.22",

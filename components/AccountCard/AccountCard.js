@@ -23,7 +23,6 @@ const AccountCard = ({
    ** ** ** State & Hooks
    ** **
    */
-  const userAvatar = useImageDimensions({ uri: account?.avatar });
   const companyLogo = useImageDimensions({ uri: broker?.logo });
 
   return (
@@ -39,20 +38,6 @@ const AccountCard = ({
         android_ripple={{ color: "rgba(0,0,0,0.1)" }}
         onPress={onPress}
       >
-        {isLoggedInAccount && (
-          <View style={styles.avatar}>
-            {
-              <Image
-                style={styles.image}
-                source={{
-                  uri: account?.avatar,
-                  width: userAvatar?.dimensions?.width || 400,
-                  height: userAvatar?.dimensions?.height || 400,
-                }}
-              />
-            }
-          </View>
-        )}
         {isDemoAccount && (
           <View style={styles.tag}>
             <Text
@@ -152,16 +137,6 @@ const styles = StyleSheet.create({
     gap: 16,
     paddingVertical: 24,
     paddingHorizontal: 32,
-  },
-  avatar: {
-    width: 64,
-    height: 64,
-    borderRadius: 80,
-    position: "absolute",
-    top: 16,
-    left: 16,
-    overflow: "hidden",
-    backgroundColor: "black",
   },
   tag: {
     position: "absolute",

@@ -65,7 +65,6 @@ const AccountsScreen = ({ navigation }) => {
               account={{
                 id: user.id,
                 username: user.fullname,
-                avatar: user.avatar,
                 deposit: user.deposit,
                 recentStatus: user.recentStatus,
               }}
