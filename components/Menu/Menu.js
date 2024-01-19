@@ -23,7 +23,7 @@ const Menu = ({
         {items.map((item, ind) => (
           <Pressable
             onPress={() => {
-              onItemPressed(ind);
+              onItemPressed(items[ind], ind);
               onDismiss();
             }}
             android_ripple={{ color: "rgba(0, 0, 0, 0.1)" }}
