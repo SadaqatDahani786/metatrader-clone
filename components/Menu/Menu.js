@@ -11,15 +11,16 @@ import OutsidePressHandler from "react-native-outside-press";
 const Menu = ({
   items = [],
   visible = false,
-  onDismiss,
+  onDismiss = () => "",
   onItemPressed = () => "",
+  fullWidth = false,
 }) => {
   return (
     <OutsidePressHandler
       style={{ display: visible ? "flex" : "none" }}
       onOutsidePress={() => onDismiss()}
     >
-      <View style={styles.container}>
+      <View style={[styles.container, { width: fullWidth ? "100%" : 200 }]}>
         {items.map((item, ind) => (
           <Pressable
             onPress={() => {
@@ -55,7 +56,6 @@ const styles = StyleSheet.create({
     backgroundColor: "hsl(0, 0%, 100%)",
     top: 0,
     right: 0,
-    width: 200,
     borderRadius: 8,
     elevation: 1,
     overflow: "hidden",
