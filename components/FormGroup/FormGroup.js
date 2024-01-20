@@ -5,8 +5,10 @@ import { View, StyleSheet } from "react-native";
  ** ** ** Component [FormGroup]
  ** ** ===================================================================================
  */
-const FormGroup = ({ children }) => {
-  return <View style={styles.FormGroup}>{children}</View>;
+const FormGroup = ({ children, delegatedStyles }) => {
+  return (
+    <View style={[styles.FormGroup, { ...delegatedStyles }]}>{children}</View>
+  );
 };
 
 /*

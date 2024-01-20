@@ -18,9 +18,10 @@ const TextField = ({
   label,
   placeholder,
   type,
+  border = true,
 }) => {
   return (
-    <FormGroup>
+    <FormGroup delegatedStyles={{ borderBottomWidth: border ? 1 : 0 }}>
       {label && <FormLabel text={label} />}
       <TextInput
         style={styles.textField}
