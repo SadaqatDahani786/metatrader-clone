@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import BottomTabs from "./bottom_tabs";
 import AddQuoteScreen from "../screens/quotes/AddQuoteScreen";
 import EditQuoteScreen from "../screens/quotes/EditQuoteScreen";
+import LoginScreen from "../screens/accounts/LoginScreen";
 
 //Stack Navigation
 const Stack = createStackNavigator();
@@ -33,6 +34,11 @@ const RootStack = () => {
         options={{ headerShown: true }}
         name="EditQuoteScreen"
         component={EditQuoteScreen}
+      />
+      <Stack.Screen
+        name="LoginScreen"
+        options={{ headerShown: true, title: "Login" }}
+        component={LoginScreen}
       />
     </Stack.Navigator>
   );

@@ -90,6 +90,11 @@ const AccountsScreen = ({ navigation }) => {
                 isDemoAccount={user.isDemoAccount}
                 isLoggedInAccount={false}
                 showIconButton={true}
+                onPress={() =>
+                  navigation.navigate("LoginScreen", {
+                    company: user.broker.company,
+                  })
+                }
               />
             ))}
         </View>
