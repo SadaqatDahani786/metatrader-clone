@@ -41,6 +41,7 @@ const LoginScreen = ({ route, navigation }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Pressable
+          onPress={() => navigation.navigate("SignupScreen01")}
           style={({ pressed }) => [
             styles.pressable,
             { backgroundColor: pressed ? "hsl(0, 0%, 20%)" : "transparent" },

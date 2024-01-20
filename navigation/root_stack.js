@@ -6,6 +6,7 @@ import BottomTabs from "./bottom_tabs";
 import AddQuoteScreen from "../screens/quotes/AddQuoteScreen";
 import EditQuoteScreen from "../screens/quotes/EditQuoteScreen";
 import LoginScreen from "../screens/accounts/LoginScreen";
+import SignupScreen01 from "../screens/accounts/SignupScreen01";
 
 //Stack Navigation
 const Stack = createStackNavigator();
@@ -39,6 +40,11 @@ const RootStack = () => {
         name="LoginScreen"
         options={{ headerShown: true, title: "Login" }}
         component={LoginScreen}
+      />
+      <Stack.Screen
+        name="SignupScreen01"
+        options={{ title: "Open a real account", headerShown: true }}
+        component={SignupScreen01}
       />
     </Stack.Navigator>
   );
