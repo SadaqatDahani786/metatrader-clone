@@ -206,7 +206,12 @@ const SignupScreen01 = ({ navigation }) => {
         </View>
       </ScrollView>
       <View style={styles.footer}>
-        <Button variant="contained" fullWidth={true} color="black">
+        <Button
+          onPress={() => navigation.navigate("SignupScreen02")}
+          variant="contained"
+          fullWidth={true}
+          color="black"
+        >
           Next
         </Button>
       </View>
