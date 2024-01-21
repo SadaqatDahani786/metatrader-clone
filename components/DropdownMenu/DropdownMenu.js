@@ -58,7 +58,7 @@ const DropdownMenu = ({
               : options[selectedItemIndex].label}
           </Text>
         </View>
-        <Feather color="" name="chevron-down" size={16} />
+        <Feather name="chevron-down" size={16} />
       </Pressable>
       <Menu
         items={options}

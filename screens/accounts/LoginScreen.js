@@ -23,7 +23,7 @@ const LoginScreen = ({ route, navigation }) => {
    ** ** ** Route Options & Navigation
    ** **
    */
-  const { company } = route.params;
+  const { broker } = route.params;
 
   /*
    ** **
@@ -32,7 +32,7 @@ const LoginScreen = ({ route, navigation }) => {
    */
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: company,
+      title: broker.company,
       headerTitleStyle: { fontFamily: "Bebas Neue" },
     });
   }, []);
@@ -41,7 +41,7 @@ const LoginScreen = ({ route, navigation }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Pressable
-          onPress={() => navigation.navigate("SignupScreen01")}
+          onPress={() => navigation.navigate("SignupScreen01", { broker })}
           style={({ pressed }) => [
             styles.pressable,
             { backgroundColor: pressed ? "hsl(0, 0%, 20%)" : "transparent" },

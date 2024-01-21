@@ -8,6 +8,7 @@ import EditQuoteScreen from "../screens/quotes/EditQuoteScreen";
 import LoginScreen from "../screens/accounts/LoginScreen";
 import SignupScreen01 from "../screens/accounts/SignupScreen01";
 import SignupScreen02 from "../screens/accounts/SignupScreen02";
+import BrokersScreen from "../screens/accounts/BrokersScreen";
 
 //Stack Navigation
 const Stack = createStackNavigator();
@@ -51,6 +52,11 @@ const RootStack = () => {
         name="SignupScreen02"
         options={{ title: "Open a real account", headerShown: true }}
         component={SignupScreen02}
+      />
+      <Stack.Screen
+        name="BrokersScreen"
+        options={{ title: "Brokers", headerShown: true }}
+        component={BrokersScreen}
       />
     </Stack.Navigator>
   );

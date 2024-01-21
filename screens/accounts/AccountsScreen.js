@@ -30,7 +30,13 @@ const AccountsScreen = ({ navigation }) => {
       headerRight: () => {
         return (
           <View style={{ paddingRight: 16, flexDirection: "row", gap: 8 }}>
-            <IconButton iconSet="FEATHER" icon="plus" size="SM" color="BLACK" />
+            <IconButton
+              iconSet="FEATHER"
+              icon="plus"
+              size="SM"
+              color="BLACK"
+              onPress={() => navigation.navigate("BrokersScreen")}
+            />
             <View>
               <IconButton
                 iconSet="FEATHER"
@@ -62,6 +68,7 @@ const AccountsScreen = ({ navigation }) => {
           .filter((account) => account.isActiveAccount)
           .map((user) => (
             <AccountCard
+              key={user.id}
               account={{
                 id: user.id,
                 username: user.fullname,
@@ -80,6 +87,7 @@ const AccountsScreen = ({ navigation }) => {
             .filter((account) => !account.isActiveAccount)
             .map((user) => (
               <AccountCard
+                key={user.id}
                 account={{
                   id: user.id,
                   username: user.fullname,
@@ -92,7 +100,7 @@ const AccountsScreen = ({ navigation }) => {
                 showIconButton={true}
                 onPress={() =>
                   navigation.navigate("LoginScreen", {
-                    company: user.broker.company,
+                    broker: user.broker,
                   })
                 }
               />
