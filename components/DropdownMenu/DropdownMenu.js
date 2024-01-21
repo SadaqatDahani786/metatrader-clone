@@ -50,11 +50,7 @@ const DropdownMenu = ({
       >
         <View style={styles.row}>
           {options[selectedItemIndex]?.icon && (
-            <Feather
-              color=""
-              name={options[selectedItemIndex].icon}
-              size={16}
-            />
+            <Feather name={options[selectedItemIndex].icon} size={16} />
           )}
           <Text style={styles.selectedOptionText}>
             {selectedItemIndex === -1
