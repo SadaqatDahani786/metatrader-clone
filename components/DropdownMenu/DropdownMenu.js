@@ -17,6 +17,7 @@ const DropdownMenu = ({
   defaultOptionIndex = -1,
   options = [],
   onItemChanged = () => "",
+  error = false,
 }) => {
   /*
    ** **
@@ -52,13 +53,22 @@ const DropdownMenu = ({
           {options[selectedItemIndex]?.icon && (
             <Feather name={options[selectedItemIndex].icon} size={16} />
           )}
-          <Text style={styles.selectedOptionText}>
+          <Text
+            style={[
+              styles.selectedOptionText,
+              { color: error ? "red" : "black" },
+            ]}
+          >
             {selectedItemIndex === -1
               ? placeholder
               : options[selectedItemIndex].label}
           </Text>
         </View>
-        <Feather name="chevron-down" size={16} />
+        <Feather
+          color={error ? "red" : "black"}
+          name="chevron-down"
+          size={16}
+        />
       </Pressable>
       <Menu
         items={options}

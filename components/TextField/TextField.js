@@ -1,9 +1,10 @@
-import { TextInput, StyleSheet } from "react-native";
+import { TextInput, Text, View, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 //Components
 import FormGroup from "../FormGroup";
 import FormLabel from "../FormLabel/";
+import FormHelperText from "../FormHelperText";
 
 /*
  ** ** =============================================================
@@ -11,53 +12,71 @@ import FormLabel from "../FormLabel/";
  ** ** =============================================================
  */
 const TextField = ({
-  icon,
-  defaultValue,
-  value,
-  onChangeText,
   label,
+  value,
+  defaultValue,
   placeholder,
   type,
+  icon,
+  color = "BLACK",
   border = true,
   alignLeft = false,
-  color = "BLACK",
+  error = false,
+  onChangeText,
+  onBlur,
 }) => {
   return (
-    <FormGroup delegatedStyles={{ borderBottomWidth: border ? 1 : 0 }}>
-      {icon && alignLeft && (
-        <Feather name={icon} size={20} color="hsl(0, 0%, 40%)" />
-      )}
-      {label && !alignLeft && <FormLabel text={label} />}
-      <TextInput
-        style={[
-          styles.textField,
-          {
-            color: color === "BLACK" ? "black" : "white",
-            textAlign: alignLeft ? "left" : "right",
-          },
-        ]}
-        placeholderTextColor={
-          color === "BLACK" ? "hsl(0, 0%, 40%)" : "hsl(0, 0%, 80%)"
-        }
-        defaultValue={defaultValue}
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        secureTextEntry={type === "password"}
-        returnKeyType={type === "search" ? "search" : "default"}
-        keyboardType={
-          type === "email"
-            ? "email-address"
-            : type === "number"
-            ? "number-pad"
-            : "default"
-        }
-      />
-      {icon && !alignLeft && (
-        <Feather name={icon} size={20} color="hsl(0, 0%, 40%)" />
-      )}
-      {label && alignLeft && <FormLabel text={label} />}
-    </FormGroup>
+    <View>
+      <FormGroup delegatedStyles={{ borderBottomWidth: border ? 1 : 0 }}>
+        {icon && alignLeft && (
+          <Feather
+            name={icon}
+            size={20}
+            color={error ? "red" : "hsl(0, 0%, 40%)"}
+          />
+        )}
+        {label && !alignLeft && <FormLabel text={label} />}
+        <TextInput
+          style={[
+            styles.textField,
+            {
+              color: error ? "red" : color === "BLACK" ? "black" : "white",
+              textAlign: alignLeft ? "left" : "right",
+            },
+          ]}
+          placeholderTextColor={
+            error
+              ? "red"
+              : color === "BLACK"
+              ? "hsl(0, 0%, 40%)"
+              : "hsl(0, 0%, 80%)"
+          }
+          defaultValue={defaultValue}
+          value={value}
+          onChangeText={onChangeText}
+          onBlur={onBlur}
+          placeholder={placeholder}
+          secureTextEntry={type === "password"}
+          returnKeyType={type === "search" ? "search" : "default"}
+          keyboardType={
+            type === "email"
+              ? "email-address"
+              : type === "number"
+              ? "number-pad"
+              : "default"
+          }
+        />
+        {icon && !alignLeft && (
+          <Feather
+            name={icon}
+            size={20}
+            color={error ? "red" : "hsl(0, 0%, 40%)"}
+          />
+        )}
+        {label && alignLeft && <FormLabel text={label} />}
+      </FormGroup>
+      {error && <FormHelperText>{error}</FormHelperText>}
+    </View>
   );
 };
 
