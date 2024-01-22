@@ -57,13 +57,16 @@ const TextField = ({
           onBlur={onBlur}
           placeholder={placeholder}
           secureTextEntry={type === "password"}
-          returnKeyType={type === "search" ? "search" : "default"}
-          keyboardType={
+          inputMode={
             type === "email"
-              ? "email-address"
+              ? "email"
               : type === "number"
-              ? "number-pad"
-              : "default"
+              ? "numeric"
+              : type === "phone"
+              ? "tel"
+              : type === "search"
+              ? "search"
+              : "text"
           }
         />
         {icon && !alignLeft && (
