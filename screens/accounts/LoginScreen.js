@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { Formik } from "formik";
 
 //Components
 import FormGroup from "../../components/FormGroup";
@@ -11,6 +12,10 @@ import TextField from "../../components/TextField";
 import Divider from "../../components/Divider";
 import Button from "../../components/Button";
 import DropdownMenu from "../../components/DropdownMenu";
+import FormHelperText from "../../components/FormHelperText";
+
+//Validators
+import { isEmail, isEmpty } from "../../utils/validators";
 
 /*
  ** ** =============================================================
@@ -27,15 +32,43 @@ const LoginScreen = ({ route, navigation }) => {
 
   /*
    ** **
-   ** ** ** Set options
+   ** ** ** Effects
    ** **
    */
+  //Set route options
   useLayoutEffect(() => {
     navigation.setOptions({
       title: broker.company,
       headerTitleStyle: { fontFamily: "Bebas Neue" },
     });
   }, []);
+
+  /*
+   ** **
+   ** ** ** Methods
+   ** **
+   */
+  //Handles input validation for form fields
+  const handleInputValidation = (values) => {
+    //1) Store errors
+    const errors = {};
+
+    //2) Validate Email address
+    if (isEmpty(values.email)) errors.email = "Please provide email address.";
+    else if (isEmail(values.email))
+      errors.email = "Please provide correct email address.";
+
+    //3) Validate Password
+    if (isEmpty(values.password))
+      errors.password = "Please provide your account password.";
+
+    //4)  Validate Server
+    if (isEmpty(values.server))
+      errors.server = "Please select the server to connect to.";
+
+    //5) Return errors
+    return errors;
+  };
 
   return (
     <View style={styles.container}>
@@ -70,42 +103,81 @@ const LoginScreen = ({ route, navigation }) => {
       </View>
       <Divider />
       <View style={styles.loginForm}>
-        <TextField placeholder="john" label="Login" icon="user" type="email" />
-        <TextField
-          placeholder="password"
-          label="Password"
-          icon="lock"
-          type="password"
-        />
-        <View style={styles.orderHigh}>
-          <FormGroup>
-            <FormLabel text="Server" />
-            <DropdownMenu
-              placeholder="Select"
-              options={[{ label: "ExnessMt5-Real5" }]}
-            />
-          </FormGroup>
-        </View>
-        <View style={{ marginTop: 56 }}>
-          <FormGroup>
-            <FormLabel text="Save password" />
-            <BouncyCheckbox
-              style={{ zIndex: 0 }}
-              iconImageStyle={{ zIndex: 0 }}
-              textContainerStyle={{ zIndex: 0 }}
-              size={18}
-              fillColor="deepskyblue"
-              iconStyle={{ borderRadius: 4 }}
-              innerIconStyle={{ borderRadius: 4 }}
-            />
-          </FormGroup>
-        </View>
-        <Button fullWidth={false} variant="text" size="SM" color="info">
-          Forgot Password?
-        </Button>
-        <Button variant="contained" fullWidth={true} color="black">
-          Login
-        </Button>
+        <Formik
+          initialValues={{
+            email: "",
+            password: "",
+            server: "",
+          }}
+          onSubmit={({ email, password, server }) => {
+            alert("Login");
+          }}
+          validate={handleInputValidation}
+        >
+          {({ values, errors, handleChange, handleBlur, handleSubmit }) => (
+            <>
+              <TextField
+                label="Email"
+                placeholder="john@abc"
+                type="email"
+                icon="mail"
+                value={values.login}
+                onBlur={handleBlur("Email")}
+                onChangeText={handleChange("email")}
+                error={errors.email}
+              />
+              <TextField
+                label="Password"
+                placeholder="password"
+                type="password"
+                icon="lock"
+                value={values.password}
+                onBlur={handleBlur("password")}
+                onChangeText={handleChange("password")}
+                error={errors.password}
+              />
+              <View style={styles.orderHigh}>
+                <FormGroup>
+                  <FormLabel text="Server" />
+                  <DropdownMenu
+                    error={errors.server}
+                    placeholder="Select"
+                    onItemChanged={(item) => handleChange("server")(item.label)}
+                    options={[{ label: "ExnessMt5-Real5" }]}
+                  />
+                  {errors.server && (
+                    <FormHelperText>{errors.server}</FormHelperText>
+                  )}
+                </FormGroup>
+              </View>
+              <View style={{ marginTop: 56 }}>
+                <FormGroup>
+                  <FormLabel text="Save password" />
+                  <BouncyCheckbox
+                    style={{ zIndex: 0 }}
+                    iconImageStyle={{ zIndex: 0 }}
+                    textContainerStyle={{ zIndex: 0 }}
+                    size={18}
+                    fillColor="deepskyblue"
+                    iconStyle={{ borderRadius: 4 }}
+                    innerIconStyle={{ borderRadius: 4 }}
+                  />
+                </FormGroup>
+              </View>
+              <Button fullWidth={false} variant="text" size="SM" color="info">
+                Forgot Password?
+              </Button>
+              <Button
+                onPress={handleSubmit}
+                variant="contained"
+                fullWidth={true}
+                color="black"
+              >
+                Login
+              </Button>
+            </>
+          )}
+        </Formik>
       </View>
     </View>
   );
