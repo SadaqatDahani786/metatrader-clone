@@ -3,12 +3,22 @@ import { View, Text, Image, StyleSheet } from "react-native";
 
 import Checkbox from "react-native-bouncy-checkbox";
 import { useImageDimensions } from "@react-native-community/hooks";
+import { Formik } from "formik";
 
 //Components
 import TextField from "../../components/TextField";
 import FormGroup from "../../components/FormGroup";
 import FormLabel from "../../components/FormLabel";
 import Button from "../../components/Button";
+
+//Validators
+import {
+  isAlpha,
+  isAlphaNumeric,
+  isEmpty,
+  isZipCode,
+} from "../../utils/validators";
+import { ScrollView } from "react-native-gesture-handler";
 
 /*
  ** ** =============================================================
@@ -21,7 +31,7 @@ const SignupScreen02 = ({ navigation, route }) => {
    ** ** ** State & Hooks
    ** **
    */
-  const { broker } = route.params;
+  const { broker, account } = route.params;
   const logoCompany = useImageDimensions({
     uri: broker.logo,
   });
@@ -49,61 +59,211 @@ const SignupScreen02 = ({ navigation, route }) => {
     });
   }, []);
 
+  /*
+   ** **
+   ** ** ** Methods
+   ** **
+   */
+  //Handles form fields validiation
+  const handleInputValidation = (values) => {
+    //1) Store errors
+    const errors = {};
+
+    //2) Validate country
+    if (isEmpty(values.country)) errors.country = "which country do you live?";
+    else if (isAlpha(values.country, { ignoreSpaces: true, ignoreCase: true }))
+      errors.country = "Country should contain letters only";
+
+    //3) Validate State
+    if (
+      !isEmpty(values.state) &&
+      isAlpha(values.state, { ignoreSpaces: true, ignoreCase: true })
+    )
+      errors.state = "State should contain letters only";
+
+    //4) Validate city
+    if (isEmpty(values.city))
+      errors.city = "What's the name of your city in which you live?";
+    else if (isAlpha(values.city, { ignoreSpaces: true, ignoreCase: true }))
+      errors.country = "City should contain letters only";
+
+    //5) Validate zipcode
+    if (!isEmpty(values.zipcode) && isZipCode(values.zipcode))
+      errors.zipcode =
+        "Please enter a valid zip code in format xxxxx or xxxxx-xxxx.";
+
+    //6) Validate address
+    if (isEmpty(values.address))
+      errors.address = "Where do you live? Please enter the full address.";
+    else if (
+      isAlphaNumeric(values.address, {
+        ignoreSpaces: true,
+        ignoreCase: true,
+        ignorePunctuations: true,
+        ignoreDashes: true,
+        ignoreHyphens: true,
+      })
+    )
+      errors.address =
+        "Address should not contain special characters ($ % * #).";
+
+    //7) Return Errorrs
+    return errors;
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.logoWrapper}>
-          <Image
-            style={styles.logo}
-            source={{
-              uri: broker.logo,
-              width: logoCompany?.dimensions?.width,
-              height: logoCompany?.dimensions?.height,
-            }}
-          />
-        </View>
-        <View style="logoWrapper">
-          <Text style={styles.headerTitle}>{broker.name}</Text>
-          <Text style={styles.headerSubtitle}>{broker.company}</Text>
-        </View>
-      </View>
-      <View style={styles.wrapper}>
-        <View style={styles.section}>
-          <Text style={styles.heading}>Address</Text>
-          <TextField label="Country" icon="" placeholder="USA" />
-          <TextField label="State" icon="" placeholder="optional" />
-          <TextField label="City" icon="" placeholder="New York" />
-          <TextField label="Zip Code" icon="" placeholder="optional" />
-          <TextField
-            label="Address"
-            icon="map-pin"
-            placeholder="21st street, avenue park"
-          />
-        </View>
-        <View style={styles.section}>
-          <Text style={styles.heading}>AGGREMENT</Text>
-          <FormGroup>
-            <FormLabel>Accept</FormLabel>
-            <Checkbox
-              size={18}
-              fillColor="black"
-              iconStyle={{ borderRadius: 4 }}
-              innerIconStyle={{ borderRadius: 4 }}
-            />
-          </FormGroup>
-          <FormGroup delegatedStyles={{ borderBottomWidth: 0 }}>
-            <Text style={styles.agreementText}>
-              By enabling accept you agree with the terms and conditions for
-              opening an account and data protection policy.
-            </Text>
-          </FormGroup>
-        </View>
-      </View>
-      <View style={styles.footer}>
-        <Button variant="contained" fullWidth={true} color="black">
-          Register
-        </Button>
-      </View>
+      <Formik
+        initialValues={{
+          country: "",
+          state: "",
+          city: "",
+          zipcode: "",
+          address: "",
+          agreement: "true",
+        }}
+        validate={handleInputValidation}
+        onSubmit={(values) => {
+          //1) Prepare form data
+          const userAccountDetails = {
+            ...account,
+            address: {
+              country: values.country,
+              state: values.state,
+              city: values.city,
+              zipcode: values.zipcode,
+              address: values.address,
+            },
+            deposit: {
+              amount: "00.00",
+              currency: "USD",
+            },
+            recentStatus: "USD",
+            id: Math.round(Math.random() * 8000),
+            broker,
+            isDemoAccount: false,
+            isActiveAccount: true,
+          };
+
+          //2) Dispatch action to store new user in redux store [TODO]
+
+          //3) Navigate to accounts screen
+          navigation.navigate("AccountsScreen");
+        }}
+      >
+        {({ values, errors, handleBlur, handleChange, handleSubmit }) => (
+          <>
+            <ScrollView
+              style={styles.scroller}
+              contentContainerStyle={{ paddingBottom: 80 }}
+            >
+              <View style={styles.header}>
+                <View style={styles.logoWrapper}>
+                  <Image
+                    style={styles.logo}
+                    source={{
+                      uri: broker.logo,
+                      width: logoCompany?.dimensions?.width,
+                      height: logoCompany?.dimensions?.height,
+                    }}
+                  />
+                </View>
+                <View style="logoWrapper">
+                  <Text style={styles.headerTitle}>{broker.name}</Text>
+                  <Text style={styles.headerSubtitle}>{broker.company}</Text>
+                </View>
+              </View>
+              <View style={styles.wrapper}>
+                <View style={styles.section}>
+                  <Text style={styles.heading}>Address</Text>
+                  <TextField
+                    label="Country"
+                    icon=""
+                    placeholder="USA"
+                    value={values.country}
+                    onBlur={handleBlur("country")}
+                    onChangeText={handleChange("country")}
+                    error={errors.country}
+                  />
+                  <TextField
+                    label="State"
+                    icon=""
+                    placeholder="optional"
+                    value={values.state}
+                    onBlur={handleBlur("state")}
+                    onChangeText={handleChange("state")}
+                    error={errors.state}
+                  />
+                  <TextField
+                    label="City"
+                    icon=""
+                    placeholder="New York"
+                    value={values.city}
+                    onBlur={handleBlur("city")}
+                    onChangeText={handleChange("city")}
+                    error={errors.city}
+                  />
+                  <TextField
+                    label="Zip Code"
+                    icon=""
+                    placeholder="optional"
+                    value={values.zipcode}
+                    onBlur={handleBlur("zipcode")}
+                    onChangeText={handleChange("zipcode")}
+                    error={errors.zipcode}
+                  />
+                  <TextField
+                    label="Address"
+                    icon="map-pin"
+                    placeholder="21st street, avenue park"
+                    value={values.address}
+                    onBlur={handleBlur("address")}
+                    onChangeText={handleChange("address")}
+                    error={errors.address}
+                  />
+                </View>
+                <View style={styles.section}>
+                  <Text style={styles.heading}>AGGREMENT</Text>
+                  <FormGroup>
+                    <FormLabel>Accept</FormLabel>
+                    <Checkbox
+                      size={18}
+                      fillColor="black"
+                      iconStyle={{ borderRadius: 4 }}
+                      innerIconStyle={{ borderRadius: 4 }}
+                      disableBuiltInState
+                      isChecked={values.agreement === "true"}
+                      onPress={() => {
+                        const checked =
+                          values.agreement === "true" ? "false" : "true";
+                        console.log(checked);
+                        handleChange("agreement")(checked);
+                      }}
+                    />
+                  </FormGroup>
+                  <FormGroup delegatedStyles={{ borderBottomWidth: 0 }}>
+                    <Text style={styles.agreementText}>
+                      By enabling accept you agree with the terms and conditions
+                      for opening an account and data protection policy.
+                    </Text>
+                  </FormGroup>
+                </View>
+              </View>
+            </ScrollView>
+            <View style={styles.footer}>
+              <Button
+                onPress={handleSubmit}
+                variant="contained"
+                fullWidth={true}
+                color="black"
+                disabled={values.agreement !== "true"}
+              >
+                Register
+              </Button>
+            </View>
+          </>
+        )}
+      </Formik>
     </View>
   );
 };
@@ -115,6 +275,7 @@ const SignupScreen02 = ({ navigation, route }) => {
  */
 const styles = StyleSheet.create({
   container: { backgroundColor: "white", flex: 1 },
+  scroller: { flex: 1 },
   pageHeaderTitle: { fontSize: 18, fontFamily: "Bebas Neue" },
   pageHeaderSubtitle: { fontSize: 14, fontFamily: "Bebas Neue", color: "gray" },
   header: {

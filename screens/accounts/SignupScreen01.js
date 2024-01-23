@@ -161,20 +161,22 @@ const SignupScreen01 = ({ navigation, route }) => {
           confirmPassword: "",
         }}
         onSubmit={(values) => {
-          alert("Continue");
-
           //1) Create object with account details
           const account = {
-            firstname: values.firstName,
-            lastname: values.lastName,
-            middlename: values.middleName,
-            email: values.email,
-            phonenumber: values.phoneNumber,
-            dateofbirth: values.dateOfBirth,
-            gender: values.gender,
-            language: values.language,
-            accounttype: values.accountType,
-            password: values.password,
+            personal_details: {
+              firstname: values.firstName,
+              lastname: values.lastName,
+              middlename: values.middleName,
+              email: values.email,
+              phonenumber: values.phoneNumber,
+              dateofbirth: values.dateOfBirth,
+              gender: values.gender,
+              language: values.language,
+            },
+            account_details: {
+              accounttype: values.accountType,
+              password: values.password,
+            },
           };
 
           //2) Naviage to screen 2 with passing date
