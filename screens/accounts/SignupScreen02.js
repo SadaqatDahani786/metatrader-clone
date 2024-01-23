@@ -20,6 +20,10 @@ import {
 } from "../../utils/validators";
 import { ScrollView } from "react-native-gesture-handler";
 
+//Redux
+import { useDispatch } from "react-redux";
+import { addAccount } from "../../store/accountsReducer";
+
 /*
  ** ** =============================================================
  ** ** ** Component [SignupScreen02]
@@ -32,6 +36,7 @@ const SignupScreen02 = ({ navigation, route }) => {
    ** **
    */
   const { broker, account } = route.params;
+  const dispatch = useDispatch();
   const logoCompany = useImageDimensions({
     uri: broker.logo,
   });
@@ -120,7 +125,7 @@ const SignupScreen02 = ({ navigation, route }) => {
           city: "",
           zipcode: "",
           address: "",
-          agreement: "true",
+          agreement: "false",
         }}
         validate={handleInputValidation}
         onSubmit={(values) => {
@@ -145,10 +150,11 @@ const SignupScreen02 = ({ navigation, route }) => {
             isActiveAccount: true,
           };
 
-          //2) Dispatch action to store new user in redux store [TODO]
+          //2) Dispatch action to store new user in redux store
+          dispatch(addAccount(userAccountDetails));
 
           //3) Navigate to accounts screen
-          navigation.navigate("AccountsScreen");
+          navigation.navigate("Accounts");
         }}
       >
         {({ values, errors, handleBlur, handleChange, handleSubmit }) => (

@@ -71,7 +71,7 @@ const AccountsScreen = ({ navigation }) => {
               key={user.id}
               account={{
                 id: user.id,
-                username: user.fullname,
+                username: `${user.personal_details.firstname} ${user.personal_details.middlename} ${user.personal_details.lastname}`,
                 deposit: user.deposit,
                 recentStatus: user.recentStatus,
               }}
@@ -90,7 +90,7 @@ const AccountsScreen = ({ navigation }) => {
                 key={user.id}
                 account={{
                   id: user.id,
-                  username: user.fullname,
+                  username: `${user.personal_details.firstname} ${user.personal_details.middlename} ${user.personal_details.lastname}`,
                   deposit: user.deposit,
                   recentStatus: user.recentStatus,
                 }}
@@ -105,6 +105,8 @@ const AccountsScreen = ({ navigation }) => {
                 }
               />
             ))}
+          {accounts.filter((account) => !account.isActiveAccount).length <=
+            0 && <Text>Your connected accounts will show up here.</Text>}
         </View>
       </ScrollView>
     </View>
