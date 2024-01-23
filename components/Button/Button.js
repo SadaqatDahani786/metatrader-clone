@@ -37,6 +37,7 @@ const Button = ({
   size = "MD",
   fullWidth = false,
   corners = false,
+  disabled = false,
   onPress = () => "",
 }) => {
   /*
@@ -56,8 +57,11 @@ const Button = ({
           borderColor: colorSelected,
           borderWidth: variant === "outlined" ? 1 : 0,
           width: fullWidth ? "100%" : sizeSelected.wd,
-          backgroundColor:
-            variant === "contained" ? colorSelected : "transparent",
+          backgroundColor: disabled
+            ? "hsl(0, 0%, 85%)"
+            : variant === "contained"
+            ? colorSelected
+            : "transparent",
         },
       ]}
     >
