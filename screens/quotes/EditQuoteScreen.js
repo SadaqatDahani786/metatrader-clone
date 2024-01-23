@@ -96,8 +96,8 @@ const EditQuoteScreen = ({ navigation }) => {
                   <IconButton
                     color="BLACK"
                     size="SM"
-                    iconSet="ANT"
-                    icon="delete"
+                    iconSet="FEATHER"
+                    icon="trash-2"
                     onPress={removeSelectedQuotesHandler}
                   />
                 </View>
@@ -106,8 +106,8 @@ const EditQuoteScreen = ({ navigation }) => {
             <IconButton
               onPress={toggleEditMode}
               size="SM"
-              iconSet="ANT"
-              icon="delete"
+              iconSet="FEATHER"
+              icon="trash-2"
             />
           </View>
         );

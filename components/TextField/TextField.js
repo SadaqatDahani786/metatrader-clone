@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     padding: 8,
     flexGrow: 1,
+    flexShrink: 1,
   },
 });
 
