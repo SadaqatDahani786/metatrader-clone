@@ -114,7 +114,14 @@ const LoginScreen = ({ route, navigation }) => {
           }}
           validate={handleInputValidation}
         >
-          {({ values, errors, handleChange, handleBlur, handleSubmit }) => (
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+          }) => (
             <>
               <TextField
                 label="Email"
@@ -122,9 +129,9 @@ const LoginScreen = ({ route, navigation }) => {
                 type="email"
                 icon="mail"
                 value={values.login}
-                onBlur={handleBlur("Email")}
+                onBlur={handleBlur("email")}
                 onChangeText={handleChange("email")}
-                error={errors.email}
+                error={errors.email && touched.email && errors.email}
               />
               <TextField
                 label="Password"
@@ -134,18 +141,18 @@ const LoginScreen = ({ route, navigation }) => {
                 value={values.password}
                 onBlur={handleBlur("password")}
                 onChangeText={handleChange("password")}
-                error={errors.password}
+                error={errors.password && touched.password && errors.password}
               />
               <View style={styles.orderHigh}>
                 <FormGroup>
                   <FormLabel text="Server" />
                   <DropdownMenu
-                    error={errors.server}
+                    error={errors.server && touched.server}
                     placeholder="Select"
                     onItemChanged={(item) => handleChange("server")(item.label)}
                     options={[{ label: "ExnessMt5-Real5" }]}
                   />
-                  {errors.server && (
+                  {errors.server && touched.server && errors.server && (
                     <FormHelperText>{errors.server}</FormHelperText>
                   )}
                 </FormGroup>

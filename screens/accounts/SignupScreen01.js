@@ -184,7 +184,14 @@ const SignupScreen01 = ({ navigation, route }) => {
         }}
         validate={validateInputFields}
       >
-        {({ values, errors, handleBlur, handleChange, handleSubmit }) => (
+        {({
+          values,
+          errors,
+          touched,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+        }) => (
           <>
             <ScrollView
               style={styles.scroller}
@@ -216,7 +223,9 @@ const SignupScreen01 = ({ navigation, route }) => {
                     value={values.firstName}
                     onBlur={handleBlur("firstName")}
                     onChangeText={handleChange("firstName")}
-                    error={errors.firstName}
+                    error={
+                      errors.firstName && touched.firstName && errors.firstName
+                    }
                   />
                   <TextField
                     label="Last Name"
@@ -225,7 +234,9 @@ const SignupScreen01 = ({ navigation, route }) => {
                     value={values.lastName}
                     onBlur={handleBlur("lastName")}
                     onChangeText={handleChange("lastName")}
-                    error={errors.lastName}
+                    error={
+                      errors.lastName && touched.lastName && errors.lastName
+                    }
                   />
                   <TextField
                     label="Middle Name"
@@ -234,7 +245,11 @@ const SignupScreen01 = ({ navigation, route }) => {
                     value={values.middleName}
                     onBlur={handleBlur("middleName")}
                     onChangeText={handleChange("middleName")}
-                    error={errors.middleName}
+                    error={
+                      errors.middleName &&
+                      touched.middleName &&
+                      errors.middleName
+                    }
                   />
                   <TextField
                     label="Email"
@@ -244,7 +259,7 @@ const SignupScreen01 = ({ navigation, route }) => {
                     value={values.email}
                     onBlur={handleBlur("email")}
                     onChangeText={handleChange("email")}
-                    error={errors.email}
+                    error={errors.email && touched.email && errors.email}
                   />
                   <TextField
                     label="Phone Number"
@@ -254,12 +269,18 @@ const SignupScreen01 = ({ navigation, route }) => {
                     value={values.phoneNumber}
                     onBlur={handleBlur("phoneNumber")}
                     onChangeText={handleChange("phoneNumber")}
-                    error={errors.phoneNumber}
+                    error={
+                      errors.phoneNumber &&
+                      touched.phoneNumber &&
+                      errors.phoneNumber
+                    }
                   />
                   <FormGroup>
-                    {errors.dateOfBirth && (
-                      <FormHelperText>{errors.dateOfBirth}</FormHelperText>
-                    )}
+                    {errors.dateOfBirth &&
+                      touched.dateOfBirth &&
+                      errors.dateOfBirth && (
+                        <FormHelperText>{errors.dateOfBirth}</FormHelperText>
+                      )}
                     <FormLabel text="Date of birth" />
                     <View style={styles.row}>
                       <Text
@@ -313,7 +334,7 @@ const SignupScreen01 = ({ navigation, route }) => {
                     }}
                   >
                     <FormGroup>
-                      {errors.gender && (
+                      {errors.gender && touched.gender && errors.gender && (
                         <FormHelperText>{errors.gender}</FormHelperText>
                       )}
                       <FormLabel text="Gender" />
@@ -323,7 +344,7 @@ const SignupScreen01 = ({ navigation, route }) => {
                         onItemChanged={(item) =>
                           handleChange("gender")(item.label)
                         }
-                        error={errors.gender}
+                        error={errors.gender && touched.gender && errors.gender}
                       />
                     </FormGroup>
                   </View>
@@ -335,7 +356,9 @@ const SignupScreen01 = ({ navigation, route }) => {
                       value={values.language}
                       onBlur={handleBlur("language")}
                       onChangeText={handleChange("language")}
-                      error={errors.language}
+                      error={
+                        errors.language && touched.language && errors.language
+                      }
                     />
                     <Text>
                       Personal details are used for opening a trade account and
@@ -362,30 +385,44 @@ const SignupScreen01 = ({ navigation, route }) => {
                       onItemChanged={(item) =>
                         handleChange("accountType")(item.label)
                       }
-                      error={errors.accountType}
+                      error={
+                        errors.accountType &&
+                        touched.accountType &&
+                        errors.accountType
+                      }
                     />
-                    {errors.accountType && (
-                      <FormHelperText>{errors.accountType}</FormHelperText>
-                    )}
+                    {errors.accountType &&
+                      touched.accountType &&
+                      errors.accountType && (
+                        <FormHelperText>{errors.accountType}</FormHelperText>
+                      )}
                   </FormGroup>
                   <View style={{ marginTop: 56 }}>
                     <TextField
                       label="Password"
                       icon="lock"
-                      placeholder="Your password"
+                      placeholder="Account password"
+                      type="password"
                       value={values.password}
                       onBlur={handleBlur("password")}
                       onChangeText={handleChange("password")}
-                      error={errors.password}
+                      error={
+                        errors.password && touched.password && errors.password
+                      }
                     />
                     <TextField
                       label="Confirm Password"
                       icon="lock"
-                      placeholder="Confirm your password"
+                      placeholder="Account password"
+                      type="password"
                       value={values.confirmPassword}
                       onBlur={handleBlur("confirmPassword")}
                       onChangeText={handleChange("confirmPassword")}
-                      error={errors.confirmPassword}
+                      error={
+                        errors.confirmPassword &&
+                        touched.confirmPassword &&
+                        errors.confirmPassword
+                      }
                     />
                   </View>
                 </View>

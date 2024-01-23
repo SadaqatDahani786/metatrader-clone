@@ -157,7 +157,14 @@ const SignupScreen02 = ({ navigation, route }) => {
           navigation.navigate("Accounts");
         }}
       >
-        {({ values, errors, handleBlur, handleChange, handleSubmit }) => (
+        {({
+          values,
+          errors,
+          touched,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+        }) => (
           <>
             <ScrollView
               style={styles.scroller}
@@ -189,7 +196,7 @@ const SignupScreen02 = ({ navigation, route }) => {
                     value={values.country}
                     onBlur={handleBlur("country")}
                     onChangeText={handleChange("country")}
-                    error={errors.country}
+                    error={errors.country && touched.country && errors.country}
                   />
                   <TextField
                     label="State"
@@ -198,7 +205,7 @@ const SignupScreen02 = ({ navigation, route }) => {
                     value={values.state}
                     onBlur={handleBlur("state")}
                     onChangeText={handleChange("state")}
-                    error={errors.state}
+                    error={errors.state && touched.state && errors.state}
                   />
                   <TextField
                     label="City"
@@ -207,7 +214,7 @@ const SignupScreen02 = ({ navigation, route }) => {
                     value={values.city}
                     onBlur={handleBlur("city")}
                     onChangeText={handleChange("city")}
-                    error={errors.city}
+                    error={errors.city && touched.city && errors.city}
                   />
                   <TextField
                     label="Zip Code"
@@ -216,7 +223,7 @@ const SignupScreen02 = ({ navigation, route }) => {
                     value={values.zipcode}
                     onBlur={handleBlur("zipcode")}
                     onChangeText={handleChange("zipcode")}
-                    error={errors.zipcode}
+                    error={errors.zipcode && touched.zipcode && errors.zipcode}
                   />
                   <TextField
                     label="Address"
@@ -225,7 +232,7 @@ const SignupScreen02 = ({ navigation, route }) => {
                     value={values.address}
                     onBlur={handleBlur("address")}
                     onChangeText={handleChange("address")}
-                    error={errors.address}
+                    error={errors.address && touched.address && errors.address}
                   />
                 </View>
                 <View style={styles.section}>
@@ -242,7 +249,6 @@ const SignupScreen02 = ({ navigation, route }) => {
                       onPress={() => {
                         const checked =
                           values.agreement === "true" ? "false" : "true";
-                        console.log(checked);
                         handleChange("agreement")(checked);
                       }}
                     />
