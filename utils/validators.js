@@ -61,6 +61,38 @@ export const isAlpha = (
 
 /**
  ** ======================================================
+ ** Validator [isAlphaNumeric]
+ ** ======================================================
+ */
+export const isAlphaNumeric = (
+  val,
+  options = {
+    ignoreSpaces: true,
+    ignoreCase: true,
+    ignoreHyphens: false,
+    ignoreDashes: false,
+    ignorePunctuations: false,
+  }
+) => {
+  if (!val) return false;
+
+  //1) Regex pattern to test for alpha numeric values
+  const pattern = `^[a-z0-9${options.ignoreSpaces ? "\\s" : ""}${
+    options.ignoreHyphens ? "\\-" : ""
+  }${options.ignoreDashes ? "\\_" : ""}${
+    options.ignorePunctuations ? "\\-\\_\\.\\,\\\"\\'\\:\\;\\(\\)\\&\\!" : ""
+  }]+$`;
+
+  //2) Test value against regex pattern, if matched, return
+  const regex = RegExp(pattern, options.ignoreCase ? "i" : "");
+  if (regex.test(val)) return false;
+
+  //3) Matched failed, return true to indicate error
+  return true;
+};
+
+/**
+ ** ======================================================
  ** Validator [isPassMissmatched]
  ** ======================================================
  */
@@ -87,4 +119,21 @@ export const isOverEighteen = (date) => {
 
   //4) Return the assertion
   return now - dob >= 180000;
+};
+
+/**
+ ** ======================================================
+ ** Validator [isZipCode]
+ ** ======================================================
+ */
+export const isZipCode = (val) => {
+  //1) Regex pattern to test for valid zip code
+  const pattern = `^([0-9]{5}|[0-9]{5}-[0-9]{4})$`;
+
+  //2) Test value against regex pattern, if matched, return
+  const regex = RegExp(pattern);
+  if (regex.test(val)) return false;
+
+  //3) Matched failed, return true to indicate error
+  return true;
 };
