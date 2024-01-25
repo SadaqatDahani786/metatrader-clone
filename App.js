@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { EventProvider } from "react-native-outside-press";
 
 //Expo
 import { hideAsync, preventAutoHideAsync } from "expo-splash-screen";
@@ -38,13 +39,15 @@ export default function App() {
   if (!fontsLoaded) return;
 
   return (
-    <Provider store={store}>
-      <NativeBaseProvider>
-        <NavigationContainer>
-          <RootStack />
-        </NavigationContainer>
-      </NativeBaseProvider>
-    </Provider>
+    <EventProvider>
+      <Provider store={store}>
+        <NativeBaseProvider>
+          <NavigationContainer>
+            <RootStack />
+          </NavigationContainer>
+        </NativeBaseProvider>
+      </Provider>
+    </EventProvider>
   );
 }
 

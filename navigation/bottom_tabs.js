@@ -1,8 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 
-import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 //Components
@@ -46,8 +45,8 @@ const BottomTabs = ({ navigation }) => (
         headerShown: true,
         headerTitleStyle,
         tabBarIcon: ({ color, size }) => (
-          <Ionicons
-            name="md-list"
+          <Feather
+            name="zap"
             size={size - 8}
             color={color}
             style={{ marginBottom: iconTextMarginBottom }}
@@ -61,7 +60,7 @@ const BottomTabs = ({ navigation }) => (
           <View
             style={{
               flexDirection: "row",
-              gap: 16,
+              gap: 8,
               paddingRight: 16,
               alignItems: "center",
             }}
@@ -69,15 +68,15 @@ const BottomTabs = ({ navigation }) => (
             <IconButton
               onPress={() => navigation.navigate("AddQuoteScreen")}
               color="BLACK"
-              iconSet="ANT"
+              iconSet="FEATHER"
               icon="plus"
               size="SM"
             />
             <IconButton
               onPress={() => navigation.navigate("EditQuoteScreen")}
               color="BLACK"
-              iconSet="ANT"
-              icon="edit"
+              iconSet="FEATHER"
+              icon="edit-3"
               size="SM"
             />
           </View>
@@ -91,8 +90,8 @@ const BottomTabs = ({ navigation }) => (
         headerShown: true,
         headerTitleStyle,
         tabBarIcon: ({ color, size }) => (
-          <FontAwesome
-            name="line-chart"
+          <Feather
+            name="bar-chart-2"
             size={size - 8}
             color={color}
             style={{ marginBottom: iconTextMarginBottom }}
@@ -111,8 +110,8 @@ const BottomTabs = ({ navigation }) => (
         headerShown: true,
         headerTitleStyle,
         tabBarIcon: ({ color, size }) => (
-          <Ionicons
-            name="md-trending-up"
+          <Feather
+            name="trending-up"
             size={size - 8}
             color={color}
             style={{ marginBottom: iconTextMarginBottom }}
@@ -131,8 +130,8 @@ const BottomTabs = ({ navigation }) => (
         headerShown: true,
         headerTitleStyle,
         tabBarIcon: ({ color, size }) => (
-          <Ionicons
-            name="md-time"
+          <Feather
+            name="git-merge"
             size={size - 8}
             color={color}
             style={{ marginBottom: iconTextMarginBottom }}
@@ -151,8 +150,8 @@ const BottomTabs = ({ navigation }) => (
         headerShown: true,
         headerTitleStyle,
         tabBarIcon: ({ color, size }) => (
-          <Ionicons
-            name="md-wallet"
+          <Feather
+            name="users"
             size={size - 8}
             color={color}
             style={{ marginBottom: iconTextMarginBottom }}

@@ -30,6 +30,10 @@ const IconButton = ({
     BLACK: "black",
     WHITE: "white",
     GRAY: "gray",
+    ERROR: "red",
+    SUCCESS: "green",
+    INFO: "deepskyblue",
+    WARN: "yellow",
   };
 
   /*
