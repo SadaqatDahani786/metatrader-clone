@@ -18,6 +18,8 @@ const DropdownMenu = ({
   options = [],
   onItemChanged = () => "",
   error = false,
+  centerAlign = false,
+  fullWidth = false,
 }) => {
   /*
    ** **
@@ -40,7 +42,7 @@ const DropdownMenu = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { flex: fullWidth ? 1 : 0 }]}>
       <Pressable
         android_ripple={{ color: "rgba(0,0,0,0.1)" }}
         style={({ pressed }) => [
@@ -49,7 +51,12 @@ const DropdownMenu = ({
         ]}
         onPress={() => setShowMenu((state) => !state)}
       >
-        <View style={styles.row}>
+        <View
+          style={[
+            styles.row,
+            centerAlign && { marginLeft: "auto", marginRight: "auto" },
+          ]}
+        >
           {options[selectedItemIndex]?.icon && (
             <Feather name={options[selectedItemIndex].icon} size={16} />
           )}
@@ -76,6 +83,7 @@ const DropdownMenu = ({
         onDismiss={() => setShowMenu(false)}
         onItemPressed={onItemsPressedHander}
         fullWidth={true}
+        centerAlign={centerAlign}
       />
     </View>
   );
