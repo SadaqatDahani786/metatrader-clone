@@ -14,7 +14,6 @@ const SwipeUpOptionsMenu = ({
   options = [],
   headerComponent,
   onClose = () => "",
-  onPressedOption = () => "",
 }) => {
   return (
     <Modal
@@ -36,7 +35,7 @@ const SwipeUpOptionsMenu = ({
               android_ripple={{ color: "rgba(255,255,255, 0.4)" }}
               onPress={() => {
                 onClose();
-                onPressedOption(option, ind);
+                option.onPress(option, ind);
               }}
             >
               <Feather size={16} color="white" name={option.icon} />
