@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 
 //Redux
@@ -25,16 +25,33 @@ import { scale } from "../../utils/scale";
  ** ** ** Component [OrderNew]
  ** ** =============================================================
  */
-const OrderNew = ({ open, onClose }) => {
+const OrderNew = ({ defaultSymbol, open, onClose }) => {
   /*
    ** **
    ** ** ** State & Hooks
    ** **
    */
+  const quotes = useSelector((store) => store.quotes);
   const [selectedOrderTypeIndex, setSelectedOrderTypeIndex] = useState(0);
   const [showSymbols, setShowSymbols] = useState(false);
-  const quotes = useSelector((store) => store.quotes);
   const [selectedQuoteIndex, setSelectedQuoteIndex] = useState(0);
+
+  /*
+   ** **
+   ** ** ** Effects
+   ** **
+   */
+  //Set default selected symbol
+  useEffect(() => {
+    //1) Find ind
+    const ind = quotes.findIndex((quote) => quote.pair === defaultSymbol);
+
+    //2) Set index if found
+    if (ind !== -1) return setSelectedQuoteIndex(ind);
+
+    //3) Else reset to the first item
+    setSelectedQuoteIndex(0);
+  }, [quotes, defaultSymbol]);
 
   /*
    ** **
