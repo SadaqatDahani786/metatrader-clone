@@ -1,10 +1,7 @@
-import { useLayoutEffect, useState } from "react";
-import { Image, Platform, StyleSheet, Text, View } from "react-native";
+import { useLayoutEffect } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-import DatePicker, {
-  DateTimePickerAndroid,
-} from "@react-native-community/datetimepicker";
 import { useImageDimensions } from "@react-native-community/hooks";
 import { Formik } from "formik";
 import { isValidPhoneNumber } from "libphonenumber-js";
@@ -15,8 +12,8 @@ import TextField from "../../components/TextField";
 import FormLabel from "../../components/FormLabel";
 import Button from "../../components/Button";
 import DropdownMenu from "../../components/DropdownMenu";
-import IconButton from "../../components/IconButton/IconButton";
 import FormHelperText from "../../components/FormHelperText";
+import DatePicker from "../../components/DatePicker";
 
 //Validators & Func
 import {
@@ -26,7 +23,6 @@ import {
   isOverEighteen,
   isPassMissmatched,
 } from "../../utils/validators";
-import getFormatedDate from "../../utils/getFormatedDate";
 
 /*
  ** ** =============================================================
@@ -40,7 +36,6 @@ const SignupScreen01 = ({ navigation, route }) => {
    ** **
    */
   const { broker } = route.params;
-  const [showDatePicker, setShowDatePicker] = useState(false);
   const logoCompany = useImageDimensions({
     uri: broker.logo,
   });
@@ -275,55 +270,19 @@ const SignupScreen01 = ({ navigation, route }) => {
                       errors.phoneNumber
                     }
                   />
-                  <FormGroup>
-                    {errors.dateOfBirth &&
+                  <DatePicker
+                    label="Birthday"
+                    value={values.dateOfBirth}
+                    error={
+                      errors.dateOfBirth &&
                       touched.dateOfBirth &&
-                      errors.dateOfBirth && (
-                        <FormHelperText>{errors.dateOfBirth}</FormHelperText>
-                      )}
-                    <FormLabel text="Date of birth" />
-                    <View style={styles.row}>
-                      <Text
-                        style={{
-                          fontSize: 16,
-                          color: errors.dateOfBirth ? "red" : "black",
-                        }}
-                      >
-                        {getFormatedDate(new Date(values.dateOfBirth))}
-                      </Text>
-                      <IconButton
-                        color={errors.dateOfBirth ? "ERROR" : "GRAY"}
-                        size="SM"
-                        icon="calendar"
-                        onPress={() => {
-                          DateTimePickerAndroid.open({
-                            value: new Date(values.dateOfBirth),
-                            onChange: (e, selectedDate) => {
-                              setShowDatePicker(false);
-                              handleChange("dateOfBirth")(
-                                selectedDate.toISOString()
-                              );
-                            },
-                            mode: "date",
-                            display: "calendar",
-                          });
-                        }}
-                      />
-                    </View>
-                    {showDatePicker && Platform.OS !== "android" && (
-                      <DatePicker
-                        mode="date"
-                        onChange={(e, selectedDate) => {
-                          setShowDatePicker(false);
-                          handleChange("dateOfBirth")(
-                            selectedDate.toISOString()
-                          );
-                        }}
-                        display="calendar"
-                        value={new Date(values.dateOfBirth)}
-                      />
-                    )}
-                  </FormGroup>
+                      errors.dateOfBirth
+                    }
+                    helperText={errors.dateOfBirth}
+                    onChange={(date) => {
+                      handleChange("dateOfBirth")(date.toISOString());
+                    }}
+                  />
                   <View
                     style={{
                       position: "absolute",
