@@ -1,10 +1,6 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { View, Text, StyleSheet, Dimensions, Animated } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
-
-//Navigation
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import { useHeaderHeight } from "@react-navigation/elements";
+import { useLayoutEffect, useState } from "react";
+import { View, Text, StyleSheet, FlatList, Dimensions } from "react-native";
+import { FlatList as FL } from "react-native-gesture-handler";
 
 //Components
 import Menu from "../../components/Menu";
@@ -46,21 +42,6 @@ const TradesScreen = ({ navigation }) => {
   //Heights of UI elements
   const statsHeight = 112;
   const accordionHeight = 56;
-  const headerHeight = useHeaderHeight();
-  const bottomTabHeight = useBottomTabBarHeight();
-  const height = Dimensions.get("window").height;
-
-  //Accordions state
-  const [isPositionExpanded, setIsPositionExpanded] = useState(false);
-  const [isOrderExpanded, setIsOrderExpanded] = useState(false);
-
-  //Accordions anim values
-  const animHeightPositionValue = useRef(
-    new Animated.Value(accordionHeight)
-  ).current;
-  const animHeightOrderValue = useRef(
-    new Animated.Value(accordionHeight)
-  ).current;
 
   //Date
   const [equity] = useState(100000000);
@@ -357,27 +338,6 @@ const TradesScreen = ({ navigation }) => {
     });
   }, [selectedSortIndex, showSortMenu]);
 
-  //Handles accordion animation logic
-  useEffect(() => {
-    //1) Expand postion ~ shrink order
-    if (isPositionExpanded && !isOrderExpanded)
-      return Animated.parallel([
-        expandHeight(animHeightPositionValue),
-        shrinkHeight(animHeightOrderValue),
-      ]).start();
-    //2) Expand order ~ shrink position
-    else if (!isPositionExpanded && isOrderExpanded)
-      Animated.parallel([
-        expandHeight(animHeightOrderValue),
-        shrinkHeight(animHeightPositionValue),
-      ]).start();
-    else
-      Animated.parallel([
-        shrinkHeight(animHeightOrderValue),
-        shrinkHeight(animHeightPositionValue),
-      ]).start();
-  }, [isPositionExpanded, isOrderExpanded]);
-
   /*
    ** **
    ** ** ** Methods
@@ -431,96 +391,68 @@ const TradesScreen = ({ navigation }) => {
     );
   };
 
-  //Expand the height animation
-  const expandHeight = (animValue) => {
-    return Animated.spring(animValue, {
-      toValue:
-        height -
-        (headerHeight + bottomTabHeight + accordionHeight + statsHeight),
-      useNativeDriver: false,
-    });
-  };
-
-  //Shrink the height animation
-  const shrinkHeight = (animValue) => {
-    return Animated.spring(animValue, {
-      toValue: accordionHeight,
-      useNativeDriver: false,
-    });
-  };
-
   return (
     <View style={styles.container}>
-      {renderStats()}
-      <Animated.View
-        style={[styles.positions, { height: animHeightPositionValue }]}
-      >
-        <View style={[styles.header, { height: accordionHeight }]}>
-          <Text style={[styles.headerText, { flex: 180 }]}>Positions</Text>
-          <IconButton
-            size="SM"
-            color="WHITE"
-            onPress={() => {
-              setIsPositionExpanded((state) => !state);
-              setIsOrderExpanded(false);
-            }}
-            icon={isPositionExpanded ? "chevron-up" : "chevron-down"}
-          />
-        </View>
-        <FlatList
-          data={positions}
-          style={styles.list}
-          keyExtractor={(item) => item.id.toString()}
-          ItemSeparatorComponent={<Divider color="hsl(0, 0%, 90%)" />}
-          renderItem={({ item }) => (
-            <RowItem
-              id={item.id}
-              symbol={item.symbol}
-              lot={item.lotSize}
-              type={item.type}
-              timestamp={item.timestamp}
-              entryPrice={item.entryPrice}
-              currentPrice={item.currentPrice}
-              pnl={item.pnl}
-              onLongPress={(id) => {
-                setSelectedOption(item);
-                setShowOptionsModal(true);
-              }}
-            />
-          )}
-        />
-      </Animated.View>
-      <Animated.View style={[styles.orders, { height: animHeightOrderValue }]}>
-        <View style={[styles.header, { height: accordionHeight }]}>
-          <Text style={[styles.headerText, { flex: 180 }]}>Orders</Text>
-          <IconButton
-            size="SM"
-            color="WHITE"
-            onPress={() => {
-              setIsOrderExpanded((state) => !state);
-              setIsPositionExpanded(false);
-            }}
-            icon={isOrderExpanded ? "chevron-up" : "chevron-down"}
-          />
-        </View>
-        <FlatList
-          data={orders}
-          style={styles.list}
-          keyExtractor={(item) => item.id.toString()}
-          ItemSeparatorComponent={<Divider color="hsl(0, 0%, 90%)" />}
-          renderItem={({ item }) => (
-            <RowItem
-              symbol={item.symbol}
-              lot={item.lotSize}
-              type={item.type}
-              timestamp={item.timestamp}
-              entryPrice={item.entryPrice}
-              currentPrice={item.currentPrice}
-              pnl={item.pnl}
-            />
-          )}
-        />
-      </Animated.View>
+      <FlatList
+        data={[0]}
+        renderItem={() => (
+          <>
+            {renderStats()}
+            <View style={styles.positions}>
+              <View style={[styles.header, { height: accordionHeight }]}>
+                <Text style={[styles.headerText, { flex: 180 }]}>
+                  Positions
+                </Text>
+              </View>
+              <FL
+                data={positions}
+                style={styles.list}
+                keyExtractor={(item) => item.id.toString()}
+                ItemSeparatorComponent={<Divider color="hsl(0, 0%, 90%)" />}
+                renderItem={({ item }) => (
+                  <RowItem
+                    id={item.id}
+                    symbol={item.symbol}
+                    lot={item.lotSize}
+                    type={item.type}
+                    timestamp={item.timestamp}
+                    entryPrice={item.entryPrice}
+                    currentPrice={item.currentPrice}
+                    pnl={item.pnl}
+                    onLongPress={(id) => {
+                      setSelectedOption(item);
+                      setShowOptionsModal(true);
+                    }}
+                  />
+                )}
+              />
+            </View>
+            <View style={styles.orders}>
+              <View style={[styles.header, { height: accordionHeight }]}>
+                <Text style={[styles.headerText, { flex: 180 }]}>Orders</Text>
+              </View>
+              <FL
+                data={orders}
+                style={styles.list}
+                keyExtractor={(item) => item.id.toString()}
+                ItemSeparatorComponent={<Divider color="hsl(0, 0%, 90%)" />}
+                renderItem={({ item }) => (
+                  <RowItem
+                    symbol={item.symbol}
+                    lot={item.lotSize}
+                    type={item.type}
+                    timestamp={item.timestamp}
+                    entryPrice={item.entryPrice}
+                    currentPrice={item.currentPrice}
+                    pnl={item.pnl}
+                  />
+                )}
+              />
+            </View>
+          </>
+        )}
+      />
+
       <OrderNew
         defaultSymbol={selectedOption?.symbol}
         open={showOrderModal}
@@ -542,12 +474,7 @@ const TradesScreen = ({ navigation }) => {
         open={showOptionsModal}
         onClose={() => setShowOptionsModal(false)}
         headerComponent={
-          <RowItem
-            lightMode
-            disabled
-            {...selectedOption}
-            lot={selectedOption?.lotSize}
-          />
+          <RowItem disabled {...selectedOption} lot={selectedOption?.lotSize} />
         }
         options={[
           {
@@ -588,7 +515,7 @@ const styles = StyleSheet.create({
   },
   statsContainer: {
     padding: 16,
-    backgroundColor: "black",
+    backgroundColor: "white",
     justifyContent: "center",
   },
   statsRow: {
@@ -612,22 +539,28 @@ const styles = StyleSheet.create({
   statsString: {
     fontFamily: "Bebas Neue",
     fontSize: 14,
-    color: "white",
+    color: "black",
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 16,
-    borderTopWidth: 1,
-    borderColor: "gray",
-    backgroundColor: "black",
+    backgroundColor: "hsl(0, 0%, 95%)",
   },
   headerText: {
     fontSize: scale(14),
-    color: "white",
+    color: "black",
+    fontWeight: "bold",
+    textTransform: "uppercase",
   },
-  list: { paddingHorizontal: 16, flex: 1 },
+  positions: { flex: 1 },
+  orders: { flex: 1 },
+  list: {
+    paddingHorizontal: 16,
+    flex: 1,
+    height: 400,
+  },
 });
 
 export default TradesScreen;

@@ -29,18 +29,20 @@ const SwipeUpOptionsMenu = ({
         {headerComponent}
         <View style={styles.options}>
           {options.map((option, ind) => (
-            <Pressable
-              key={option.label}
-              style={styles.optionPressable}
-              android_ripple={{ color: "rgba(255,255,255, 0.4)" }}
-              onPress={() => {
-                onClose();
-                option.onPress(option, ind);
-              }}
-            >
-              <Feather size={16} color="white" name={option.icon} />
-              <Text style={styles.optionText}>{option.label}</Text>
-            </Pressable>
+            <View style={styles.optionWrapper}>
+              <Pressable
+                key={option.label}
+                style={styles.optionPressable}
+                android_ripple={{ color: "rgba(0,0,0, 0.1)" }}
+                onPress={() => {
+                  onClose();
+                  option.onPress(option, ind);
+                }}
+              >
+                <Feather size={16} color="black" name={option.icon} />
+                <Text style={styles.optionText}>{option.label}</Text>
+              </Pressable>
+            </View>
           ))}
         </View>
       </View>
@@ -58,7 +60,7 @@ const styles = StyleSheet.create({
     marginTop: "auto",
     marginLeft: "auto",
     marginRight: "auto",
-    backgroundColor: "black",
+    backgroundColor: "white",
     width: "100%",
     maxHeight: "95%",
     padding: 16,
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
   },
   options: {
     borderTopWidth: 1,
-    borderColor: "gray",
+    borderColor: "hsl(0, 0%, 90%)",
     marginTop: 16,
     paddingVertical: 16,
     gap: 4,
@@ -87,7 +89,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 4,
   },
-  optionText: { fontSize: scale(14), color: "white" },
+  optionText: { fontSize: scale(14), color: "black" },
 });
 
 export default SwipeUpOptionsMenu;
