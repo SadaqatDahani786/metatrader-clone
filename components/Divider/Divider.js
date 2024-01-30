@@ -1,13 +1,34 @@
 import { StyleSheet, View } from "react-native";
 
-const Divider = ({ color = "gray" }) => {
-  return <View style={[styles.container, { backgroundColor: color }]} />;
+/**
+ ** ** ===================================================================================
+ ** ** ** Component [Divider]
+ ** ** ===================================================================================
+ */
+const Divider = ({ color = "gray", height = 1, vertical = false }) => {
+  return (
+    <View
+      style={[
+        styles.container,
+        {
+          height: vertical ? "100%" : height,
+          width: vertical ? 1 : "100%",
+          borderColor: color,
+        },
+      ]}
+    />
+  );
 };
 
+/**
+ ** **
+ ** ** ** Styles
+ ** **
+ */
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: 1,
+    borderWidth: 1,
+    borderTopWidth: 0,
   },
 });
 

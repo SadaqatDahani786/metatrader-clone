@@ -14,6 +14,7 @@ const Menu = ({
   onDismiss = () => "",
   onItemPressed = () => "",
   fullWidth = false,
+  centerAlign = false,
 }) => {
   return (
     <OutsidePressHandler
@@ -32,6 +33,7 @@ const Menu = ({
               styles.item,
               {
                 backgroundColor: pressed ? "rgba(0, 0, 0, 0.1)" : "transparent",
+                justifyContent: centerAlign ? "center" : "flex-start",
               },
             ]}
             key={ind}

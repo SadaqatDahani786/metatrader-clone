@@ -4,7 +4,7 @@
  ** ======================================================
  */
 //Return a date as formated string
-export default getFormatedDate = (date) => {
+export const getFormatedDate = (date) => {
   //1) Day of the month
   let day = date.getDate();
   day = day < 9 ? "0" + day : day;
@@ -19,3 +19,5 @@ export default getFormatedDate = (date) => {
   //4) Return formated
   return `${day}-${mon}-${year}`;
 };
+
+export default getFormatedDate;

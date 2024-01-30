@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, View } from "react-native";
-import { Feather, AntDesign } from "@expo/vector-icons";
+import { Feather, AntDesign, MaterialIcons } from "@expo/vector-icons";
 
 /**
  ** ** ===================================================================================
@@ -20,6 +20,7 @@ const IconButton = ({
    */
   //Sizes
   const sizes = {
+    XS: 24,
     SM: 32,
     MD: 40,
     LG: 58,
@@ -55,12 +56,21 @@ const IconButton = ({
     },
   });
 
+  //Icons Props
+  const props = {
+    color: colors[color],
+    size: sizes[size] - 8,
+    name: icon,
+  };
+
   //Select IconSet
   const IconSet =
     iconSet === "FEATHER" ? (
-      <Feather color={colors[color]} size={sizes[size] - 8} name={icon} />
+      <Feather {...props} />
+    ) : iconSet === "MATERIAL" ? (
+      <MaterialIcons {...props} />
     ) : (
-      <AntDesign color={colors[color]} size={sizes[size] - 8} name={icon} />
+      <AntDesign {...props} />
     );
 
   return (
