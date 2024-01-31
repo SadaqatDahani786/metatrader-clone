@@ -79,6 +79,7 @@ const Button = ({
                 ? "rgba(10,10,10,0.5)"
                 : colorSelected,
             paddingHorizontal: variant === "text" ? 0 : 24,
+            paddingVertical: variant === "text" ? 0 : 16,
           },
         ]}
         android_ripple={{
@@ -126,7 +127,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   pressable: {
-    paddingVertical: 16,
     justifyContent: "center",
     alignItems: "center",
   },
