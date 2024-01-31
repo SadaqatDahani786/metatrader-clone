@@ -1,6 +1,8 @@
 import { View, Image, Pressable, Text, StyleSheet } from "react-native";
 import { useImageDimensions } from "@react-native-community/hooks";
 
+import Button from "../Button";
+
 //Components
 import IconButton from "../IconButton/IconButton";
 
@@ -12,10 +14,13 @@ import IconButton from "../IconButton/IconButton";
 const AccountCard = ({
   account,
   broker,
-  isLoggedInAccount = false,
+  isVerticalView = true,
   isDemoAccount = false,
   showIconButton = false,
+  showNavigationLink = false,
+  disabled = false,
   onIconButtonPress = () => "",
+  onNavButtonPress = () => "",
   onPress = () => "",
 }) => {
   /**
@@ -28,11 +33,13 @@ const AccountCard = ({
   return (
     <View style={styles.container}>
       <Pressable
+        disabled={disabled}
         style={({ pressed }) => [
           styles.pressable,
           {
             backgroundColor: pressed ? "hsl(0, 0%, 90%)" : "transparent",
-            flexDirection: isLoggedInAccount ? "column" : "row",
+            flexDirection: isVerticalView ? "column" : "row",
+            paddingHorizontal: !disabled ? 16 : 0,
           },
         ]}
         android_ripple={{ color: "rgba(0,0,0,0.1)" }}
@@ -53,7 +60,7 @@ const AccountCard = ({
         <View
           style={[
             styles.leftView,
-            { alignItems: isLoggedInAccount ? "center" : "flex-start" },
+            { alignItems: isVerticalView ? "center" : "flex-start" },
           ]}
         >
           <View style={styles.companyLogo}>
@@ -70,48 +77,71 @@ const AccountCard = ({
         <View
           style={[
             styles.rightView,
-            { alignItems: isLoggedInAccount ? "center" : "flex-start" },
+            { alignItems: isVerticalView ? "center" : "flex-start" },
           ]}
         >
           <View
             style={{
-              alignItems: isLoggedInAccount ? "center" : "flex-start",
+              alignItems: isVerticalView ? "center" : "flex-start",
             }}
           >
-            <Text style={styles.title}>{account?.username}</Text>
-            <Text style={styles.company}>{broker?.company}</Text>
+            {account?.username && (
+              <Text style={styles.title}>{account.username}</Text>
+            )}
+            {broker?.company && (
+              <Text style={styles.company}>{broker.company}</Text>
+            )}
           </View>
           <View
             style={{
-              alignItems: isLoggedInAccount ? "center" : "flex-start",
+              alignItems: isVerticalView ? "center" : "flex-start",
             }}
           >
-            <Text style={styles.subtitle}>
-              {account?.id} — {broker?.name}
-            </Text>
-            <Text style={styles.subtitle}>{broker?.server}</Text>
+            {broker?.id && broker?.name && (
+              <Text style={styles.subtitle}>
+                {account.id} — {broker.name}
+              </Text>
+            )}
+            {broker?.server && (
+              <Text style={styles.subtitle}>{broker.server}</Text>
+            )}
           </View>
           <View
             style={{
-              alignItems: isLoggedInAccount ? "center" : "flex-start",
+              alignItems: isVerticalView ? "center" : "flex-start",
             }}
           >
-            <Text style={styles.amount}>
-              {account?.deposit?.amount} {account?.deposit?.currency}
-            </Text>
-            {!isLoggedInAccount && (
+            {account?.deposit?.amount && account?.deposit?.currency && (
+              <Text style={styles.amount}>
+                {account.deposit.amount} {account.deposit.currency}
+              </Text>
+            )}
+            {account?.recentStatus && (
               <Text style={styles.recentStatus}>
-                {account?.recentStatus}, Last Known
+                {account.recentStatus}, Last Known
               </Text>
             )}
           </View>
+          {showNavigationLink && (
+            <View style={{ width: 160 }}>
+              <Button
+                onPress={onNavButtonPress}
+                size="MD"
+                fullWidth
+                variant="text"
+                color="info"
+              >
+                Manage Accounts
+              </Button>
+            </View>
+          )}
         </View>
         {showIconButton && (
           <View style={styles.infoButton}>
             <IconButton
               onPress={onIconButtonPress}
               size="SM"
-              icon={isLoggedInAccount ? "bell" : "info"}
+              icon={isVerticalView ? "bell" : "info"}
             />
           </View>
         )}
@@ -136,7 +166,6 @@ const styles = StyleSheet.create({
   pressable: {
     gap: 16,
     paddingVertical: 24,
-    paddingHorizontal: 32,
   },
   tag: {
     position: "absolute",
