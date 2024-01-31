@@ -1,5 +1,13 @@
+import { useEffect } from "react";
 import { View } from "react-native";
 import { WebView } from "react-native-webview";
+
+//Navigation
+import { useIsFocused } from "@react-navigation/native";
+
+//Redux
+import { useDispatch } from "react-redux";
+import { changeNavActive } from "../../store/navigationReducer";
 
 /*
  ** ** =============================================================
@@ -48,6 +56,28 @@ const ChartScreen = () => {
     styleElement.innerHTML = '.chart-page { background-color: #ffffff; }';
     document.head.appendChild(styleElement);
   `;
+
+  /*
+   ** **
+   ** ** ** State & Hooks
+   ** **
+   */
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
+
+  /*
+   ** **
+   ** ** ** Effects
+   ** **
+   */
+  //Make current screen as active in redux store
+  useEffect(() => {
+    //1) If screen not active, return
+    if (!isFocused) return;
+
+    //2) Current screen is active, make it active in redux also
+    dispatch(changeNavActive(1));
+  }, [isFocused]);
 
   return (
     <View

@@ -1,8 +1,13 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
+//Navigation
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { useSelector } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
+
+//Redux
+import { useDispatch, useSelector } from "react-redux";
+import { changeNavActive } from "../../store/navigationReducer";
 
 //Screens
 import PositionsScreen from "./PositionsScreen";
@@ -25,6 +30,14 @@ const Tab = createMaterialTopTabNavigator();
  ** ** =============================================================
  */
 const HistoryScreen = ({ navigation }) => {
+  /*
+   ** **
+   ** ** ** State & Hooks
+   ** **
+   */
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
+
   //Symbols
   const quotes = useSelector((store) => store.quotes);
   const [symbols, setSymbols] = useState(["All Symbols"]);
@@ -153,6 +166,15 @@ const HistoryScreen = ({ navigation }) => {
     dateFrom,
     dateTo,
   ]);
+
+  //Make current screen as active in redux store
+  useEffect(() => {
+    //1) If screen not active, return
+    if (!isFocused) return;
+
+    //2) Current screen is active, make it active in redux also
+    dispatch(changeNavActive(3));
+  }, [isFocused]);
 
   //Set symbols when quotes fetched
   useEffect(() => {

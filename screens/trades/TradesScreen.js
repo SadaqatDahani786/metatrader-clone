@@ -1,6 +1,9 @@
-import { useLayoutEffect, useState } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { View, Text, StyleSheet, FlatList, Dimensions } from "react-native";
 import { FlatList as FL } from "react-native-gesture-handler";
+
+//Navigation
+import { useIsFocused } from "@react-navigation/native";
 
 //Components
 import Menu from "../../components/Menu";
@@ -14,6 +17,10 @@ import PositionClose from "../../components/PositionClose";
 
 //Utils
 import scale from "../../utils/scale";
+
+//Redux
+import { useDispatch } from "react-redux";
+import { changeNavActive } from "../../store/navigationReducer";
 
 /*
  ** ** =============================================================
@@ -29,6 +36,10 @@ const TradesScreen = ({ navigation }) => {
   //Sort menu
   const [showSortMenu, setShowSortMenu] = useState(false);
   const [selectedSortIndex, setSelectedSortIndex] = useState(0);
+
+  //Redux
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
 
   //Options menu
   const [showOptionsModal, setShowOptionsModal] = useState(false);
@@ -337,6 +348,15 @@ const TradesScreen = ({ navigation }) => {
       ),
     });
   }, [selectedSortIndex, showSortMenu]);
+
+  //Make current screen as active in redux store
+  useEffect(() => {
+    //1) If screen not active, return
+    if (!isFocused) return;
+
+    //2) Current screen is active, make it active in redux also
+    dispatch(changeNavActive(2));
+  }, [isFocused]);
 
   /*
    ** **

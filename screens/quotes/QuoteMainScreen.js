@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   View,
   Text,
@@ -5,7 +6,13 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { useSelector } from "react-redux";
+
+//Navigation
+import { useIsFocused } from "@react-navigation/native";
+
+//Redux
+import { useSelector, useDispatch } from "react-redux";
+import { changeNavActive } from "../../store/navigationReducer";
 
 /*
  ** ** =============================================================
@@ -19,10 +26,37 @@ const QuotesMainScreen = () => {
    ** **
    */
   const quotesData = useSelector((state) => state.quotes);
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
 
+  //Colors
   const redColor = "#FF5252";
   const blueColor = "#448AFF";
   const grayColor = "#757575";
+
+  /*
+   ** **
+   ** ** ** Effects
+   ** **
+   */
+  //Make current screen as active in redux store
+  useEffect(() => {
+    //1) If screen not active, return
+    if (!isFocused) return;
+
+    //2) Current screen is active, make it active in redux also
+    dispatch(changeNavActive(0));
+  }, [isFocused]);
+
+  /*
+   ** **
+   ** ** ** Methods
+   ** **
+   */
+  //Handle press event
+  const handleRowPress = (item) => {
+    console.log("Row pressed:", item.pair);
+  };
 
   /*
    ** **
@@ -88,16 +122,6 @@ const QuotesMainScreen = () => {
         </View>
       </TouchableOpacity>
     );
-  };
-
-  /*
-   ** **
-   ** ** ** Methods
-   ** **
-   */
-  //Handle press event
-  const handleRowPress = (item) => {
-    console.log("Row pressed:", item.pair);
   };
 
   return (

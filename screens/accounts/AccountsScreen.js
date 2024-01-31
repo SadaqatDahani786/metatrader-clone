@@ -1,9 +1,13 @@
-import { useLayoutEffect, useState } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
+//Navigation
+import { useIsFocused } from "@react-navigation/native";
+
 //Redux
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { changeNavActive } from "../../store/navigationReducer";
 
 //Components
 import Menu from "../../components/Menu";
@@ -22,9 +26,16 @@ const AccountsScreen = ({ navigation }) => {
    ** **
    */
   const [showOptions, setShowOptions] = useState(false);
+  const isFocused = useIsFocused();
   const accounts = useSelector((store) => store.accounts);
+  const dispatch = useDispatch();
 
-  //Layout effect
+  /*
+   ** **
+   ** ** ** Effects
+   ** **
+   */
+  //Set route options
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
@@ -61,6 +72,15 @@ const AccountsScreen = ({ navigation }) => {
     });
   }, [showOptions]);
 
+  //Make current screen as active in redux store
+  useEffect(() => {
+    //1) If screen not active, return
+    if (!isFocused) return;
+
+    //2) Current screen is active, make it active in redux also
+    dispatch(changeNavActive(4));
+  }, [isFocused]);
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
@@ -77,7 +97,7 @@ const AccountsScreen = ({ navigation }) => {
               }}
               broker={user.broker}
               isDemoAccount={user.isDemoAccount}
-              isLoggedInAccount={true}
+              isVerticalView={true}
               showIconButton={true}
             />
           ))}
@@ -96,7 +116,7 @@ const AccountsScreen = ({ navigation }) => {
                 }}
                 broker={user.broker}
                 isDemoAccount={user.isDemoAccount}
-                isLoggedInAccount={false}
+                isVerticalView={false}
                 showIconButton={true}
                 onPress={() =>
                   navigation.navigate("LoginScreen", {

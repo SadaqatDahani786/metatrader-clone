@@ -1,5 +1,10 @@
-import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+
+//Screens
+import BottomTabs from "./bottom_tabs";
+
+//Components
+import DrawerContent from "../components/DrawerContent";
 
 //Drawer Navigation
 const Drawer = createDrawerNavigator();
@@ -10,20 +15,16 @@ const Drawer = createDrawerNavigator();
  ** ** =============================================================
  */
 const DrawerNavigator = () => {
-  //Profile Screen
-  const ProfileScreen = () => {
-    return <View>Profile Screen</View>;
-  };
-
-  //Settings Screen
-  const SettingsScreen = () => {
-    return <View>Settings Screen</View>;
-  };
-
   return (
-    <Drawer.Navigator>
-      <Drawer.Screen name="Pr" component={ProfileScreen} />
-      <Drawer.Screen name="Se" component={SettingsScreen} />
+    <Drawer.Navigator drawerContent={DrawerContent}>
+      <Drawer.Screen
+        name="BottomTabs"
+        component={BottomTabs}
+        options={{
+          title: "Tabs",
+          headerShown: false,
+        }}
+      />
     </Drawer.Navigator>
   );
 };
